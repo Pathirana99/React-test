@@ -3,12 +3,33 @@ name: Deploy React App to EC2
 on:
   push:
     branches:
-      - main  # Change to 'master' if your default branch is master
+      - main
 
 jobs:
-  deploy:
+  verify:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check code formatting with Prettier
+        run: npm run format:check
+
+      - name: Run TypeScript build check
+        run: npm run build
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -18,7 +39,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # Navigate to the project directory
+            set -e
             cd ~/React-test
 
             # Pull latest changes from git
