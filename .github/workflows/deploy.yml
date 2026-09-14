@@ -1,0 +1,38 @@
+name: Deploy React App to EC2
+
+on:
+  push:
+    branches:
+      - main  # Change to 'master' if your default branch is master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            # Navigate to the project directory
+            cd ~/React-test
+
+            # Pull latest changes from git
+            git pull origin main
+
+            # Rebuild the Docker image natively on ARM64
+            docker build -t my-react-app .
+
+            # Stop and remove the old running container
+            docker stop react-container || true
+            docker rm react-container || true
+
+            # Start the new container
+            docker run -d --name react-container -p 80:80 --restart unless-stopped my-react-app
+
+            # Clean up dangling/unused images to save disk space
+            docker image prune -f
