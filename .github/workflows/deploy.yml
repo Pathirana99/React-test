@@ -25,7 +25,7 @@ jobs:
             git pull origin main
 
             # Rebuild the Docker image natively on ARM64
-            docker build -t my-react-app .
+            docker build --no-cache -t my-react-app .
 
             # Stop and remove the old running container
             docker stop react-container || true
