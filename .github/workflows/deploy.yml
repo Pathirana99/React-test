@@ -42,18 +42,18 @@ jobs:
             set -e
             cd ~/React-test
 
-            # Pull latest changes from git
+            # Pull latest code
             git pull origin main
 
-            # Rebuild the Docker image natively on ARM64
-            docker build --no-cache -t my-react-app .
+            # Rebuild image
+            docker build -t my-react-app .
 
-            # Stop and remove the old running container
+            # Stop and remove existing container
             docker stop react-container || true
             docker rm react-container || true
 
-            # Start the new container
-            docker run -d --name react-container -p 80:80 --restart unless-stopped my-react-app
+            # Run container on internal port 3000 (proxied by host Nginx)
+            docker run -d --name react-container -p 127.0.0.1:3000:80 --restart unless-stopped my-react-app
 
-            # Clean up dangling/unused images to save disk space
+            # Clean up old images
             docker image prune -f
