@@ -43,14 +43,20 @@ function App() {
               type="button"
               className={`workflow__step ${i === stepIndex ? 'is-active' : ''} ${i < stepIndex ? 'is-done' : ''}`}
               onClick={() => {
-                if (i <= stepIndex || (step.id === 'compose' && page === 'welcome')) {
+                if (
+                  i <= stepIndex ||
+                  (step.id === 'compose' && page === 'welcome')
+                ) {
                   if (step.id === 'celebrate' && !note.trim()) return;
                   setPage(step.id);
                 }
               }}
               disabled={
-                (step.id === 'celebrate' && page !== 'celebrate' && !note.trim()) ||
-                (i > stepIndex && !(page === 'welcome' && step.id === 'compose'))
+                (step.id === 'celebrate' &&
+                  page !== 'celebrate' &&
+                  !note.trim()) ||
+                (i > stepIndex &&
+                  !(page === 'welcome' && step.id === 'compose'))
               }
             >
               <span className="workflow__num">{i + 1}</span>
@@ -71,8 +77,7 @@ function App() {
               in three soft steps
             </h1>
             <p className="lede">
-              Write a short note, pick a mood, and watch it bloom into a
-              pulse.
+              Write a short note, pick a mood, and watch it bloom into a pulse.
             </p>
             <div className="actions">
               <button
@@ -176,7 +181,11 @@ function App() {
               >
                 Edit note
               </button>
-              <button type="button" className="btn btn--primary" onClick={reset}>
+              <button
+                type="button"
+                className="btn btn--primary"
+                onClick={reset}
+              >
                 Start over
               </button>
             </div>
