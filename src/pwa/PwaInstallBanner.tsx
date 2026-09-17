@@ -18,14 +18,20 @@ export function PwaInstallBanner() {
         />
         <div>
           <p className="pwa-banner__title">Install Pulse</p>
-          <p className="pwa-banner__text">Add to your desktop for a quick heartbeat.</p>
+          <p className="pwa-banner__text">
+            Add to your desktop for a quick heartbeat.
+          </p>
         </div>
       </div>
       <div className="pwa-banner__actions">
         <button type="button" className="pwa-banner__ghost" onClick={dismiss}>
           Not now
         </button>
-        <button type="button" className="pwa-banner__primary" onClick={() => void install()}>
+        <button
+          type="button"
+          className="pwa-banner__primary"
+          onClick={() => void install()}
+        >
           Install
         </button>
       </div>

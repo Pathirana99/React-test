@@ -58,7 +58,10 @@
   border: 0;
   border-radius: 999px;
   padding: 0.65rem 1rem;
-  font: 600 0.85rem/1 'Outfit', system-ui, sans-serif;
+  font:
+    600 0.85rem/1 'Outfit',
+    system-ui,
+    sans-serif;
   cursor: pointer;
 }
 
