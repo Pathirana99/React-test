@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './App.css';
+import { PwaInstallBanner } from './pwa/PwaInstallBanner.tsx';
 
 type Page = 'welcome' | 'compose' | 'celebrate';
 
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <div className={`app app--${page}`}>
+      <PwaInstallBanner />
       <header className="topbar">
         <p className="brand">Pulse</p>
         <nav className="workflow" aria-label="Progress">
