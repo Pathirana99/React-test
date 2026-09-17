@@ -55,8 +55,7 @@ function isIosSafari() {
     /iphone|ipad|ipod/.test(ua) ||
     (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   // Chrome/Firefox/Edge on iOS still use WebKit but block A2HS UX; Safari is the reliable path
-  const isSafari =
-    /safari/.test(ua) && !/crios|fxios|edgios|android/.test(ua);
+  const isSafari = /safari/.test(ua) && !/crios|fxios|edgios|android/.test(ua);
   return isIos && isSafari;
 }
 
