@@ -47,7 +47,7 @@ function App() {
               marginLeft: '8px',
             }}
           >
-            {__APP_VERSION__} Sunith 1
+            {__APP_VERSION__} Sunith 1/ sjk 2
           </span>
         </p>
         <nav className="workflow" aria-label="Progress">
