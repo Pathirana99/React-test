@@ -2,8 +2,14 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { execSync } from 'child_process';
 
-// Get current git tag, fallback to 'v0.0.0' if no tags exist
-const gitTag = execSync('git describe --tags --always').toString().trim();
+// Get current git tag, fallback if git is missing (e.g. in Docker)
+let gitTag = 'v0.0.0';
+try {
+  gitTag = execSync('git describe --tags --always').toString().trim();
+} catch (e) {
+  // Ignore error and use fallback or environment variable if provided
+  gitTag = process.env.VITE_APP_VERSION || 'v1.0.0';
+}
 
 // https://vite.dev/config/
 export default defineConfig({

@@ -45,8 +45,11 @@ jobs:
             # Pull latest code
             git pull origin main
 
+            # Get the current version tag from git
+            export APP_VERSION=$(git describe --tags --always)
+
             # Rebuild image
-            docker build -t my-react-app .
+            docker build --build-arg VITE_APP_VERSION=$APP_VERSION -t my-react-app .
 
             # Stop and remove existing container
             docker stop react-container || true
