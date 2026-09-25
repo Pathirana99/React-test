@@ -37,7 +37,9 @@ function App() {
     <div className={`app app--${page}`}>
       <PwaInstallBanner />
       <header className="topbar">
-        <p className="brand">Pulse</p>
+        <p className="brand">
+          Pulse <span style={{ fontSize: '0.5em', opacity: 0.6, verticalAlign: 'middle', marginLeft: '8px' }}>{__APP_VERSION__}</span>
+        </p>
         <nav className="workflow" aria-label="Progress">
           {steps.map((step, i) => (
             <button
