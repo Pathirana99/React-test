@@ -10,5 +10,5 @@ export default defineConfig({
   plugins: [react()],
   define: {
     __APP_VERSION__: JSON.stringify(gitTag),
-  }
+  },
 });
