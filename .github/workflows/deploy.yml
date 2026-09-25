@@ -44,9 +44,10 @@ jobs:
 
             # Pull latest code
             git pull origin main
+            git fetch --tags
 
-            # Get the current version tag from git
-            export APP_VERSION=$(git describe --tags --always)
+            # Get the current version tag from git (clean tag name)
+            export APP_VERSION=$(git describe --tags --abbrev=0 --always)
 
             # Rebuild image
             docker build --build-arg VITE_APP_VERSION=$APP_VERSION -t my-react-app .
