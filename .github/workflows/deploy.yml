@@ -25,7 +25,7 @@ jobs:
         run: npm run format:check
 
       - name: Run TypeScript build check
-        run: npm run build
+        run: npm run build:frontend
 
   deploy:
     needs: verify
@@ -57,7 +57,8 @@ jobs:
             docker rm react-container || true
 
             # Run container on internal port 3000 (proxied by host Nginx)
-            docker run -d --name react-container -p 127.0.0.1:3000:80 --restart unless-stopped my-react-app
+            # You can inject MySQL credentials here using -e DB_HOST=... -e DB_USER=... etc.
+            docker run -d --name react-container -p 127.0.0.1:3000:3000 --restart unless-stopped my-react-app
 
             # Clean up old images
             docker image prune -f

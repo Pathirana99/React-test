@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { PwaInstallBanner } from './pwa/PwaInstallBanner.tsx';
 
@@ -24,13 +24,50 @@ function App() {
   const [note, setNote] = useState('');
   const [burst, setBurst] = useState(0);
 
+  // New states for backend
+  const [noteId, setNoteId] = useState<number | null>(null);
+  const [notesList, setNotesList] = useState<any[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+
   const stepIndex = steps.findIndex((s) => s.id === page);
+
+  // Fetch notes when on welcome page
+  useEffect(() => {
+    if (page === 'welcome') {
+      fetch('/api/notes')
+        .then((res) => res.json())
+        .then((data) => setNotesList(data))
+        .catch(console.error);
+    }
+  }, [page]);
 
   function reset() {
     setPage('welcome');
     setMood('warm');
     setNote('');
     setBurst(0);
+    setNoteId(null);
+  }
+
+  async function saveNote() {
+    if (!note.trim()) return;
+    setIsSaving(true);
+    try {
+      const method = noteId ? 'PUT' : 'POST';
+      const url = noteId ? `/api/notes/${noteId}` : '/api/notes';
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: note }),
+      });
+      const data = await res.json();
+      if (!noteId) setNoteId(data.id);
+      setPage('celebrate');
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -149,10 +186,10 @@ function App() {
               <button
                 type="button"
                 className="btn btn--primary"
-                disabled={!note.trim()}
-                onClick={() => setPage('celebrate')}
+                disabled={!note.trim() || isSaving}
+                onClick={saveNote}
               >
-                Send pulse
+                {isSaving ? 'Sending...' : 'Send pulse'}
               </button>
             </div>
           </main>
@@ -206,6 +243,62 @@ function App() {
           </main>
         )}
       </div>
+
+      {notesList.length > 0 && (
+        <aside
+          style={{
+            position: 'fixed',
+            top: '80px',
+            right: '20px',
+            width: '300px',
+            bottom: '20px',
+            overflowY: 'auto',
+            background: 'rgba(0,0,0,0.2)',
+            borderRadius: '16px',
+            padding: '24px',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            zIndex: 10,
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1em',
+              textTransform: 'uppercase',
+              marginBottom: '16px',
+              letterSpacing: '1px',
+              opacity: 0.8,
+            }}
+          >
+            Recent Pulses
+          </h3>
+          <ul
+            style={{
+              listStyle: 'none',
+              padding: 0,
+              margin: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+            }}
+          >
+            {notesList.map((n) => (
+              <li
+                key={n.id}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  padding: '16px',
+                  borderRadius: '12px',
+                  fontSize: '0.95em',
+                  lineHeight: '1.4',
+                }}
+              >
+                {n.content}
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
     </div>
   );
 }
