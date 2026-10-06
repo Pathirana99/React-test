@@ -57,9 +57,14 @@ jobs:
             docker stop react-container || true
             docker rm react-container || true
 
-            # Run container on internal port 3000 (proxied by host Nginx)
-            # You can inject MySQL credentials here using -e DB_HOST=... -e DB_USER=... etc.
-            docker run -d --name react-container -p 127.0.0.1:3000:3000 --restart unless-stopped my-react-app
+            # Run container on internal port 3000 and connect to host's MySQL
+            docker run -d --name react-container \
+              -e DB_HOST=172.17.0.1 \
+              -e DB_USER=root \
+              -e DB_PASSWORD=sjk@1999 \
+              -e DB_NAME=test_db \
+              -p 127.0.0.1:3000:3000 \
+              --restart unless-stopped my-react-app
 
             # Clean up old images
             docker image prune -f
