@@ -61,7 +61,7 @@ app.put("/api/notes/:id", async (req, res) => {
 
 // Serve frontend static files in production
 if (process.env.NODE_ENV === "production") {
-  const frontendDistPath = path.join(__dirname, "../frontend/dist");
+  const frontendDistPath = path.join(process.cwd(), "../frontend/dist");
   app.use(express.static(frontendDistPath));
 
   // SPA Fallback
