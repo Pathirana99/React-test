@@ -22,8 +22,11 @@ jobs:
         run: npm ci
 
 
-      - name: Run TypeScript build check
+      - name: Run frontend build check
         run: npm run build:frontend
+
+      - name: Run backend build check
+        run: npm run build:backend
 
   deploy:
     needs: verify
