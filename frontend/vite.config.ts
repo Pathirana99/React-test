@@ -17,4 +17,12 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(gitTag),
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      },
+    },
+  },
 });
