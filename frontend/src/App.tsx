@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { PwaInstallBanner } from './pwa/PwaInstallBanner.tsx';
 
+declare const __APP_VERSION__: string;
+
 type Page = 'welcome' | 'compose' | 'celebrate';
 
 const moods = [
-  { id: 'warm', label: 'Warm' },
-  { id: 'playful', label: 'Playful' },
-  { id: 'deep', label: 'Deep' },
+  { id: 'warm', label: 'Warm', color: '#10b981' },
+  { id: 'playful', label: 'Playful', color: '#fb7185' },
+  { id: 'deep', label: 'Deep', color: '#a855f7' },
 ] as const;
 
 type MoodId = (typeof moods)[number]['id'];
@@ -18,28 +20,88 @@ const steps: { id: Page; label: string }[] = [
   { id: 'celebrate', label: 'Pulse' },
 ];
 
+interface PulseItem {
+  id: number | string;
+  sender?: string;
+  mood?: string;
+  content: string;
+  timestamp?: string;
+  createdAt?: string;
+}
+
+const defaultPulses: PulseItem[] = [
+  {
+    id: 'p1',
+    sender: 'Echoes in Rain',
+    mood: 'deep',
+    content: 'A slow calm murmur from the northern coastline. Felt the silence break softly.',
+    timestamp: '2m ago',
+  },
+  {
+    id: 'p2',
+    sender: 'Warm Amber',
+    mood: 'warm',
+    content: 'Thinking of our studio sessions under the warm skylight.',
+    timestamp: '18m ago',
+  },
+  {
+    id: 'p3',
+    sender: 'Deep Bloom',
+    mood: 'deep',
+    content: 'Sending this quiet intention across time zones. May you find stillness.',
+    timestamp: '1h ago',
+  },
+];
+
 function App() {
   const [page, setPage] = useState<Page>('welcome');
   const [mood, setMood] = useState<MoodId>('warm');
   const [note, setNote] = useState('');
   const [burst, setBurst] = useState(0);
 
-  // New states for backend
+  // Backend state
   const [noteId, setNoteId] = useState<number | null>(null);
-  const [notesList, setNotesList] = useState<any[]>([]);
+  const [backendNotes, setBackendNotes] = useState<PulseItem[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const stepIndex = steps.findIndex((s) => s.id === page);
 
-  // Fetch notes when on welcome page
+  const fetchNotes = () => {
+    fetch('/api/notes')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const formatted: PulseItem[] = data.map((item: any, idx: number) => ({
+            id: item.id || `b-${idx}`,
+            sender: item.sender || (idx === 0 ? 'Latest Pulse' : 'Signal Recipient'),
+            mood: item.mood || 'warm',
+            content: item.content,
+            timestamp: item.created_at ? new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'recently',
+            createdAt: item.created_at,
+          }));
+          setBackendNotes(formatted);
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not fetch backend notes:', err);
+      });
+  };
+
   useEffect(() => {
-    if (page === 'welcome') {
-      fetch('/api/notes')
-        .then((res) => res.json())
-        .then((data) => setNotesList(data))
-        .catch(console.error);
-    }
-  }, [page]);
+    fetchNotes();
+    const interval = setInterval(fetchNotes, 15000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Combine backend notes with default presets
+  const displayPulses: PulseItem[] = [
+    ...backendNotes,
+    ...defaultPulses.filter(
+      (dp) => !backendNotes.some((bn) => bn.content === dp.content)
+    ),
+  ];
 
   function reset() {
     setPage('welcome');
@@ -61,243 +123,460 @@ function App() {
         body: JSON.stringify({ content: note }),
       });
       const data = await res.json();
-      if (!noteId) setNoteId(data.id);
+      if (!noteId && data.id) setNoteId(data.id);
+
+      // Prepend newly saved pulse to local list
+      const newPulse: PulseItem = {
+        id: data.id || Date.now(),
+        sender: `${mood.charAt(0).toUpperCase() + mood.slice(1)} Pulse`,
+        mood: mood,
+        content: note,
+        timestamp: 'just now',
+      };
+      setBackendNotes((prev) => [newPulse, ...prev.filter((p) => p.id !== data.id)]);
+
       setPage('celebrate');
     } catch (e) {
       console.error(e);
+      // Still show celebrate on network fallback
+      const fallbackPulse: PulseItem = {
+        id: Date.now(),
+        sender: `${mood.charAt(0).toUpperCase() + mood.slice(1)} Pulse`,
+        mood: mood,
+        content: note,
+        timestamp: 'just now',
+      };
+      setBackendNotes((prev) => [fallbackPulse, ...prev]);
+      setPage('celebrate');
     } finally {
       setIsSaving(false);
     }
   }
 
+  const currentMoodObj = moods.find((m) => m.id === mood) || moods[0];
+
+  const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'v0.0.8';
+
   return (
-    <div className={`app app--${page}`}>
+    <div className={`pulse-app pulse-app--${page}`}>
       <PwaInstallBanner />
-      <header className="topbar">
-        <p className="brand">
-          Pulse{' '}
-          <span
-            style={{
-              fontSize: '0.5em',
-              opacity: 0.6,
-              verticalAlign: 'middle',
-              marginLeft: '8px',
-            }}
-          >
-            {__APP_VERSION__} Sunith 1/ sjk 2
-          </span>
-        </p>
-        <nav className="workflow" aria-label="Progress">
-          {steps.map((step, i) => (
-            <button
-              key={step.id}
-              type="button"
-              className={`workflow__step ${i === stepIndex ? 'is-active' : ''} ${i < stepIndex ? 'is-done' : ''}`}
-              onClick={() => {
-                if (
-                  i <= stepIndex ||
-                  (step.id === 'compose' && page === 'welcome')
-                ) {
-                  if (step.id === 'celebrate' && !note.trim()) return;
-                  setPage(step.id);
-                }
-              }}
-              disabled={
-                (step.id === 'celebrate' &&
-                  page !== 'celebrate' &&
-                  !note.trim()) ||
-                (i > stepIndex &&
-                  !(page === 'welcome' && step.id === 'compose'))
-              }
-            >
-              <span className="workflow__num">{i + 1}</span>
-              <span className="workflow__label">{step.label}</span>
-            </button>
-          ))}
+
+      {/* Main Top Header */}
+      <header className="pulse-topbar">
+        <div className="pulse-brand">
+          <span className="pulse-brand__dot" aria-hidden="true" />
+          <span className="pulse-brand__name">Pulse</span>
+          <span className="pulse-brand__version">{appVersion}</span>
+        </div>
+
+        {/* Workflow pill navigation */}
+        <nav className="pulse-nav" aria-label="Workflow progress">
+          {steps.map((step, i) => {
+            const isActive = step.id === page;
+            const isCompleted = i < stepIndex;
+
+            return (
+              <button
+                key={step.id}
+                type="button"
+                className={`pulse-nav__item ${isActive ? 'is-active' : ''} ${isCompleted ? 'is-completed' : ''}`}
+                onClick={() => {
+                  if (
+                    i <= stepIndex ||
+                    (step.id === 'compose' && page === 'welcome') ||
+                    (step.id === 'celebrate' && note.trim())
+                  ) {
+                    setPage(step.id);
+                  }
+                }}
+                disabled={step.id === 'celebrate' && !note.trim() && page !== 'celebrate'}
+              >
+                {isActive && <span className="pulse-nav__dot">●</span>}
+                <span className="pulse-nav__label">{step.label}</span>
+              </button>
+            );
+          })}
         </nav>
+
+        {/* Profile Avatar */}
+        <button
+          type="button"
+          className="pulse-avatar"
+          aria-label="User Profile"
+          title="Profile · Live Sync Active"
+        >
+          <svg
+            className="pulse-avatar__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+        </button>
       </header>
 
-      <div key={page} className="page">
-        {page === 'welcome' && (
-          <main className="panel panel--welcome">
-            <div className="panel__orb" aria-hidden="true" />
-            <p className="eyebrow">A tiny love workflow</p>
-            <h1 className="title">
-              Send a heartbeat
-              <br />
-              in three soft steps
-            </h1>
-            <p className="lede">
-              Write a short note, pick a mood, and watch it bloom into a pulse.
-            </p>
-            <div className="actions">
-              <button
-                type="button"
-                className="btn btn--primary"
-                onClick={() => setPage('compose')}
-              >
-                Begin
-              </button>
-            </div>
-          </main>
-        )}
+      {/* Main App Container: Left/Center Stage + Right Sidebar */}
+      <div className="pulse-container">
+        {/* Main Stage */}
+        <div className="pulse-stage">
+          {page === 'welcome' && (
+            <main className="pulse-panel pulse-panel--welcome">
+              <div className="pulse-badge">
+                <span className="pulse-badge__star">✦</span>
+                <span>TINY LOFI WORKFLOW</span>
+                <span className="pulse-badge__star">✦</span>
+              </div>
 
-        {page === 'compose' && (
-          <main className="panel panel--compose">
-            <p className="eyebrow">Step 2 · Compose</p>
-            <h1 className="title title--sm">How does it feel?</h1>
-            <p className="lede">Choose a mood, then leave a few words.</p>
+              <h1 className="pulse-title">
+                Send a heartbeat
+                <br />
+                <span className="pulse-title--highlight">in three soft steps</span>
+              </h1>
 
-            <div className="moods" role="group" aria-label="Mood">
-              {moods.map((m) => (
+              <p className="pulse-subtitle">
+                Write a short note, pick a mood, and watch it bloom into a pulse.
+              </p>
+
+              <div className="pulse-actions pulse-actions--center">
                 <button
-                  key={m.id}
                   type="button"
-                  className={`mood mood--${m.id} ${mood === m.id ? 'is-selected' : ''}`}
-                  onClick={() => setMood(m.id)}
+                  className="pulse-btn pulse-btn--primary"
+                  onClick={() => setPage('compose')}
                 >
-                  <span className="mood__dot" aria-hidden="true" />
-                  {m.label}
+                  Begin →
                 </button>
-              ))}
+              </div>
+
+              <div className="pulse-time-hint">
+                <svg
+                  className="pulse-time-hint__icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span>Takes under 60 seconds</span>
+              </div>
+
+              {/* Bottom Equalizer waveform animation */}
+              <div className="pulse-equalizer" aria-hidden="true">
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--1" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--2" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--3" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--4" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--5" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--6" />
+                <span className="pulse-equalizer__bar pulse-equalizer__bar--7" />
+              </div>
+            </main>
+          )}
+
+          {page === 'compose' && (
+            <main className="pulse-panel pulse-panel--compose">
+              <div className="pulse-badge">
+                <span className="pulse-badge__star">✦</span>
+                <span>STEP 2 · COMPOSE</span>
+                <span className="pulse-badge__star">✦</span>
+              </div>
+
+              <h1 className="pulse-title pulse-title--compose">How does it feel?</h1>
+
+              <p className="pulse-subtitle pulse-subtitle--compose">
+                Choose a mood, then leave a few words to carry your intention.
+              </p>
+
+              {/* Mood Selectors */}
+              <div className="pulse-moods" role="group" aria-label="Select mood">
+                {moods.map((m) => {
+                  const isSelected = mood === m.id;
+                  return (
+                    <button
+                      key={m.id}
+                      type="button"
+                      className={`pulse-mood-btn ${isSelected ? 'is-selected' : ''}`}
+                      onClick={() => setMood(m.id)}
+                    >
+                      <span className={`pulse-mood-dot pulse-mood-dot--${m.id}`} />
+                      <span className="pulse-mood-label">{m.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Note Input */}
+              <div className="pulse-field">
+                <div className="pulse-field__header">
+                  <span className="pulse-field__label">Your note</span>
+                  <span className="pulse-field__security">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="pulse-field__lock-icon"
+                    >
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                    Quiet transmission
+                  </span>
+                </div>
+
+                <div className="pulse-textarea-wrapper">
+                  <textarea
+                    className="pulse-textarea"
+                    rows={4}
+                    maxLength={140}
+                    placeholder="Something gentle, honest, or a little wild…"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    autoFocus
+                  />
+                  <span className="pulse-field__counter">{note.length}/140</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pulse-actions pulse-actions--between">
+                <button
+                  type="button"
+                  className="pulse-btn pulse-btn--ghost"
+                  onClick={() => setPage('welcome')}
+                >
+                  ← Back
+                </button>
+                <button
+                  type="button"
+                  className="pulse-btn pulse-btn--primary"
+                  disabled={!note.trim() || isSaving}
+                  onClick={saveNote}
+                >
+                  {isSaving ? 'Sending...' : 'Send pulse ↗'}
+                </button>
+              </div>
+
+              <p className="pulse-compose-footnote">
+                ✦ Transmitted directly to recipient's live memory clock
+              </p>
+            </main>
+          )}
+
+          {page === 'celebrate' && (
+            <main className="pulse-panel pulse-panel--celebrate">
+              <div className="pulse-badge pulse-badge--coords">
+                <span className="pulse-badge__star">✦</span>
+                <span>TRANSMITTED · 56.1249° N 12.0123° E</span>
+                <span className="pulse-badge__star">✦</span>
+              </div>
+
+              {/* Glowing Heart with Radar Rings & Core Glow */}
+              <div className="pulse-heart-stage">
+                <div className="pulse-radar-ring pulse-radar-ring--1" />
+                <div className="pulse-radar-ring pulse-radar-ring--2" />
+                <div className="pulse-radar-ring pulse-radar-ring--3" />
+                <div className="pulse-radar-crosshair pulse-radar-crosshair--h" />
+                <div className="pulse-radar-crosshair pulse-radar-crosshair--v" />
+
+                <button
+                  type="button"
+                  className="pulse-heart-btn"
+                  aria-label="Pulse heart"
+                  onClick={() => setBurst((b) => b + 1)}
+                >
+                  <div className="pulse-heart-glow" />
+                  <div className="pulse-heart-mesh">
+                    <span className="pulse-heart-core" />
+                  </div>
+                </button>
+
+                {/* Particle sparkles on click */}
+                <div key={burst} className="pulse-sparkles" aria-hidden="true">
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <span key={i} className={`pulse-sparkle pulse-sparkle--${i + 1}`} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Mood Badge */}
+              <div className="pulse-celebrate-mood">
+                <span className="pulse-celebrate-mood__dot" />
+                <span>✦ {currentMoodObj.label.toUpperCase()} PULSE ✦</span>
+              </div>
+
+              {/* User Note Quote */}
+              <blockquote className="pulse-sent-quote">
+                “{note.trim() || 'Warm heartbeat'}”
+              </blockquote>
+
+              <p className="pulse-sent-subtext">
+                <span className="pulse-status-dot">●</span>
+                Delivered to recipient · Recorded on midnight ledger
+              </p>
+
+              {/* Action Buttons */}
+              <div className="pulse-actions pulse-actions--center">
+                <button
+                  type="button"
+                  className="pulse-btn pulse-btn--ghost"
+                  onClick={() => setPage('compose')}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="pulse-btn__icon"
+                  >
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
+                  Edit note
+                </button>
+                <button
+                  type="button"
+                  className="pulse-btn pulse-btn--primary"
+                  onClick={reset}
+                >
+                  Start over ↺
+                </button>
+              </div>
+
+              {/* Frequency Audio Waveform */}
+              <div className="pulse-resonance">
+                <div className="pulse-resonance__bars" aria-hidden="true">
+                  <span className="pulse-res-bar pulse-res-bar--1" />
+                  <span className="pulse-res-bar pulse-res-bar--2" />
+                  <span className="pulse-res-bar pulse-res-bar--3" />
+                  <span className="pulse-res-bar pulse-res-bar--4" />
+                  <span className="pulse-res-bar pulse-res-bar--5" />
+                  <span className="pulse-res-bar pulse-res-bar--6" />
+                  <span className="pulse-res-bar pulse-res-bar--7" />
+                </div>
+                <span className="pulse-resonance__tag">FREQUENCY RESONANCE: 432Hz</span>
+              </div>
+            </main>
+          )}
+        </div>
+
+        {/* Persistent Right Sidebar: RECENT PULSES */}
+        <aside className="pulse-sidebar">
+          <div className="pulse-sidebar__header">
+            <h3 className="pulse-sidebar__title">RECENT PULSES</h3>
+            <div className="pulse-sidebar__live">
+              <span className="pulse-live-dot" />
+              <span>Live Sync</span>
             </div>
+          </div>
 
-            <label className="field">
-              <span className="field__label">Your note</span>
-              <textarea
-                className="field__input"
-                rows={3}
-                maxLength={120}
-                placeholder="Something gentle, honest, or a little wild…"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-              <span className="field__hint">{note.length}/120</span>
-            </label>
+          <div className="pulse-sidebar__list">
+            {displayPulses.map((p) => {
+              const isWarm = p.mood === 'warm';
+              const isPlayful = p.mood === 'playful';
 
-            <div className="actions">
-              <button
-                type="button"
-                className="btn btn--ghost"
-                onClick={() => setPage('welcome')}
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                className="btn btn--primary"
-                disabled={!note.trim() || isSaving}
-                onClick={saveNote}
-              >
-                {isSaving ? 'Sending...' : 'Send pulse'}
-              </button>
-            </div>
-          </main>
-        )}
+              return (
+                <div key={p.id} className="pulse-card">
+                  <div className="pulse-card__header">
+                    <div className="pulse-card__sender-wrap">
+                      <span
+                        className={`pulse-card__mood-dot ${
+                          isWarm
+                            ? 'pulse-card__mood-dot--warm'
+                            : isPlayful
+                              ? 'pulse-card__mood-dot--playful'
+                              : 'pulse-card__mood-dot--deep'
+                        }`}
+                      />
+                      <span className="pulse-card__sender">
+                        {p.sender || 'Anonymous Pulse'}
+                      </span>
+                    </div>
+                    <span className="pulse-card__time">{p.timestamp || 'recently'}</span>
+                  </div>
+                  <p className="pulse-card__content">{p.content}</p>
+                </div>
+              );
+            })}
+          </div>
 
-        {page === 'celebrate' && (
-          <main className="panel panel--celebrate">
-            <div className="heart-stage__glow" aria-hidden="true" />
-
-            <button
-              type="button"
-              className="heart-button"
-              aria-label="Beat the heart"
-              onClick={() => setBurst((n) => n + 1)}
-            >
-              <span className="heart" aria-hidden="true">
-                <span className="heart__shape" />
-                <span className="heart__shine" />
-              </span>
-              <span className="heart__ring heart__ring--a" aria-hidden="true" />
-              <span className="heart__ring heart__ring--b" aria-hidden="true" />
-            </button>
-
-            <div key={burst} className="sparkles" aria-hidden="true">
-              {Array.from({ length: 8 }, (_, i) => (
-                <span key={i} className={`sparkle sparkle--${i + 1}`} />
-              ))}
-            </div>
-
-            <p className={`sent-mood sent-mood--${mood}`}>
-              {moods.find((m) => m.id === mood)?.label} pulse
-            </p>
-            <blockquote className="sent-note">“{note.trim()}”</blockquote>
-
-            <div className="actions">
-              <button
-                type="button"
-                className="btn btn--ghost"
-                onClick={() => setPage('compose')}
-              >
-                Edit note
-              </button>
-              <button
-                type="button"
-                className="btn btn--primary"
-                onClick={reset}
-              >
-                Start over
-              </button>
-            </div>
-          </main>
-        )}
+          <button
+            type="button"
+            className="pulse-sidebar__history-btn"
+            onClick={() => setShowHistory(true)}
+          >
+            View Pulse History
+          </button>
+        </aside>
       </div>
 
-      {notesList.length > 0 && (
-        <aside
-          style={{
-            position: 'fixed',
-            top: '80px',
-            right: '20px',
-            width: '300px',
-            bottom: '20px',
-            overflowY: 'auto',
-            background: 'rgba(0,0,0,0.2)',
-            borderRadius: '16px',
-            padding: '24px',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            zIndex: 10,
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1em',
-              textTransform: 'uppercase',
-              marginBottom: '16px',
-              letterSpacing: '1px',
-              opacity: 0.8,
-            }}
+      {/* History Modal */}
+      {showHistory && (
+        <div className="pulse-modal-backdrop" onClick={() => setShowHistory(false)}>
+          <div
+            className="pulse-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            onClick={(e) => e.stopPropagation()}
           >
-            Recent Pulses
-          </h3>
-          <ul
-            style={{
-              listStyle: 'none',
-              padding: 0,
-              margin: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}
-          >
-            {notesList.map((n) => (
-              <li
-                key={n.id}
-                style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  padding: '16px',
-                  borderRadius: '12px',
-                  fontSize: '0.95em',
-                  lineHeight: '1.4',
-                }}
+            <div className="pulse-modal__header">
+              <div className="pulse-modal__title-wrap">
+                <span className="pulse-live-dot" />
+                <h2 id="modal-title" className="pulse-modal__title">
+                  Transmission Archive
+                </h2>
+              </div>
+              <button
+                type="button"
+                className="pulse-modal__close"
+                onClick={() => setShowHistory(false)}
+                aria-label="Close archive"
               >
-                {n.content}
-              </li>
-            ))}
-          </ul>
-        </aside>
+                ✕
+              </button>
+            </div>
+
+            <div className="pulse-modal__search">
+              <input
+                type="text"
+                placeholder="Search pulses or tags..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pulse-modal__input"
+              />
+            </div>
+
+            <div className="pulse-modal__list">
+              {displayPulses
+                .filter((p) =>
+                  p.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  (p.sender && p.sender.toLowerCase().includes(searchTerm.toLowerCase()))
+                )
+                .map((p) => (
+                  <div key={p.id} className="pulse-modal__item">
+                    <div className="pulse-card__header">
+                      <span className="pulse-card__sender">{p.sender}</span>
+                      <span className="pulse-card__time">{p.timestamp}</span>
+                    </div>
+                    <p className="pulse-card__content">{p.content}</p>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
