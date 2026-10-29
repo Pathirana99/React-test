@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - develop
   workflow_dispatch:
 
 jobs:
@@ -42,10 +41,10 @@ jobs:
             set -e
             cd ~/React-test
 
-            # Pull latest code for the pushed branch
+            # Pull latest code from main
             git fetch origin
-            git checkout ${{ github.ref_name }}
-            git pull origin ${{ github.ref_name }}
+            git checkout main
+            git pull origin main
 
             # Rebuild docker image
             docker build -t my-react-app .
