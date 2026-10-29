@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install dependencies
         run: |
@@ -47,17 +47,19 @@ jobs:
             git reset --hard origin/main
             git clean -fd
 
-            # Rebuild docker image
+            # Ensure build doesn't fail on missing buildx
+            export DOCKER_BUILDKIT=0
             docker build -t my-react-app .
 
-            # Stop and remove existing container
-            docker stop react-container || true
-            docker rm react-container || true
+            # Stop and remove any prior container instance
+            docker rm -f my-react-container react-container 2>/dev/null || true
 
-            # Run container on internal port 3000
-            docker run -d --name react-container \
+            # Run new container bound to internal port 3000
+            docker run -d \
+              --name my-react-container \
               -p 127.0.0.1:3000:3000 \
-              --restart unless-stopped my-react-app
+              --restart unless-stopped \
+              my-react-app
 
-            # Clean up old images
+            # Prevent 8GB EC2 storage exhaustion
             docker image prune -f
