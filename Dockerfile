@@ -1,17 +1,15 @@
 # Build Stage
-FROM node:20-slim AS builder
+FROM node:22-slim AS builder
 WORKDIR /app
 
-# Only copy package.json so Linux ARM64/x64 native dependencies resolve properly
-COPY package.json ./
+# Upgrade npm to latest stable to avoid Arborist dependency tree bugs
+RUN npm install -g npm@latest
 
-# Install dependencies and ensure matching architecture bindings (aarch64 for AWS Graviton / x86_64 for Intel)
-RUN npm install --include=optional && \
-    if [ "$(uname -m)" = "aarch64" ]; then \
-      npm install -D @rolldown/binding-linux-arm64-gnu || true; \
-    elif [ "$(uname -m)" = "x86_64" ]; then \
-      npm install -D @rolldown/binding-linux-x64-gnu || true; \
-    fi
+# Copy package files (now includes universal package-lock.json with ARM64 bindings)
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install --legacy-peer-deps
 
 # Build application
 COPY . .
