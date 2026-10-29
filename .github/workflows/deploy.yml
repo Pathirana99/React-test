@@ -2,8 +2,10 @@ name: Deploy React App to EC2
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
 
 jobs:
   verify:
@@ -16,17 +18,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm install --include=optional
+          npm install -D @rolldown/binding-linux-x64-gnu || true
 
-
-      - name: Run frontend build check
-        run: npm run build:frontend
-
-      - name: Run backend build check
-        run: npm run build:backend
+      - name: Run build check
+        run: npm run build
 
   deploy:
     needs: verify
@@ -43,26 +42,20 @@ jobs:
             set -e
             cd ~/React-test
 
-            # Pull latest code
-            git pull origin main
-            git fetch --tags
+            # Pull latest code for the pushed branch
+            git fetch origin
+            git checkout ${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
 
-            # Get the current version tag from git (clean tag name)
-            export APP_VERSION=$(git describe --tags --abbrev=0 --always)
-
-            # Rebuild image
-            docker build --build-arg VITE_APP_VERSION=$APP_VERSION -t my-react-app .
+            # Rebuild docker image
+            docker build -t my-react-app .
 
             # Stop and remove existing container
             docker stop react-container || true
             docker rm react-container || true
 
-            # Run container on internal port 3000 and connect to host's MySQL
+            # Run container on internal port 3000
             docker run -d --name react-container \
-              -e DB_HOST=172.17.0.1 \
-              -e DB_USER=root \
-              -e DB_PASSWORD=sjk@1999 \
-              -e DB_NAME=test_db \
               -p 127.0.0.1:3000:3000 \
               --restart unless-stopped my-react-app
 
