@@ -1,10 +1,137 @@
 @import "tailwindcss";
 
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  background-color: #0b0f19;
-  color: #f1f5f9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+@layer base {
+  :root {
+    --color-midnight: #0B0D10;
+    --color-racing-yellow: #FFC400;
+    --color-graphite: #171A20;
+    --color-steel-grey: #252A32;
+    --color-snow-white: #F5F5F5;
+    --color-muted-silver: #A1A7B0;
+    --color-success: #22C55E;
+    --color-error: #EF4444;
+    --color-info: #3B82F6;
+    --color-warning: #F59E0B;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #0B0D10;
+    color: #F5F5F5;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, .font-heading {
+    font-family: 'Space Grotesk', 'Inter', sans-serif;
+  }
+}
+
+/* Custom UI Components matching prompt rules */
+.btn-primary {
+  background-color: #FFC400;
+  color: #0B0D10;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px 0 rgba(255, 196, 0, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: #ffd026;
+  box-shadow: 0 6px 20px 0 rgba(255, 196, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #171A20;
+  color: #F5F5F5;
+  border: 1px solid #252A32;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #20242c;
+  border-color: #3b434f;
+  color: #ffffff;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #F5F5F5;
+  border: 1px solid #252A32;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  border-color: #FFC400;
+  color: #FFC400;
+}
+
+.card-graphite {
+  background-color: #171A20;
+  border: 1px solid #252A32;
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card-graphite:hover {
+  border-color: rgba(255, 196, 0, 0.35);
+}
+
+/* Input Fields */
+.input-dark {
+  background-color: #171A20;
+  border: 1px solid #252A32;
+  color: #F5F5F5;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-dark::placeholder {
+  color: #A1A7B0;
+}
+
+.input-dark:focus {
+  border-color: #FFC400;
+  box-shadow: 0 0 0 1px #FFC400;
+}
+
+/* Custom Scrollbar for sidebars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0D10;
+}
+::-webkit-scrollbar-thumb {
+  background: #252A32;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b434f;
+}
+
+/* Radar pulse animation for map */
+@keyframes radar-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.animate-radar {
+  animation: radar-pulse 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }

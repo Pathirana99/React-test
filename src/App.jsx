@@ -1,59 +1,211 @@
 import React, { useState } from 'react';
-import { Sparkles, Code2, Layers, CheckCircle2 } from 'lucide-react';
+import Navbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import CategoryGrid from './components/CategoryGrid';
+import NearbyShopsSection from './components/NearbyShopsSection';
+import HomeMapAndCta from './components/HomeMapAndCta';
+import ExploreMapPage from './components/ExploreMapPage';
+import ShopDetailsModal from './components/ShopDetailsModal';
+import AuthModal from './components/AuthModal';
+import BusinessRegistrationModal from './components/BusinessRegistrationModal';
+import BusinessDashboard from './components/BusinessDashboard';
+import ServicesView from './components/ServicesView';
+import Footer from './components/Footer';
+import { INITIAL_SHOPS } from './data/automotiveData';
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  const [activeView, setActiveView] = useState('home'); // 'home' | 'explore' | 'services' | 'dashboard'
+  const [shops, setShops] = useState(INITIAL_SHOPS);
+  const [selectedShop, setSelectedShop] = useState(null);
+  const [detailsModalShop, setDetailsModalShop] = useState(null);
+  const [activeRouteShop, setActiveRouteShop] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  // Modals
+  const [authModal, setAuthModal] = useState({ isOpen: false, mode: 'login' });
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Search trigger from Hero
+  const handleHeroSearch = (query) => {
+    setSearchQuery(query);
+    setActiveView('explore');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Category select trigger from Home
+  const handleSelectCategory = (categoryId) => {
+    setSearchQuery('');
+    setActiveView('explore');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Route toggle (Simulated navigation path on map)
+  const handleToggleRoute = (shop) => {
+    if (activeRouteShop?.id === shop.id) {
+      setActiveRouteShop(null);
+    } else {
+      setActiveRouteShop(shop);
+      setSelectedShop(shop);
+      if (activeView !== 'explore') {
+        setActiveView('explore');
+      }
+    }
+  };
+
+  // Use My Location trigger
+  const handleUseLocation = () => {
+    setActiveView('explore');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Complete Business Registration Handler
+  const handleRegisterComplete = (newBusinessData) => {
+    const newShop = {
+      id: `shop-${Date.now()}`,
+      name: newBusinessData.businessName,
+      category: newBusinessData.category,
+      categoryId: newBusinessData.categoryId,
+      rating: 5.0,
+      reviewCount: 1,
+      distance: "0.8 km away",
+      location: newBusinessData.address,
+      city: newBusinessData.city,
+      isOpen: true,
+      openingHours: newBusinessData.openingHours,
+      phone: newBusinessData.phone,
+      email: newBusinessData.email,
+      verified: true,
+      coverImage: newBusinessData.photoUrl || "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80",
+      gallery: [
+        newBusinessData.photoUrl || "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80"
+      ],
+      description: newBusinessData.description,
+      services: newBusinessData.services,
+      coords: newBusinessData.coords || { x: 50, y: 50 },
+      lat: parseFloat(newBusinessData.lat) || 34.053,
+      lng: parseFloat(newBusinessData.lng) || -118.242
+    };
+
+    setShops([newShop, ...shops]);
+    setSelectedShop(newShop);
+    setActiveView('explore');
+  };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
-      <div className="max-w-md w-full bg-slate-900/80 border border-slate-800 rounded-2xl p-8 shadow-2xl backdrop-blur-sm text-center space-y-6">
+    <div className="min-h-screen bg-[#0B0D10] text-[#F5F5F5] flex flex-col font-sans selection:bg-[#FFC400] selection:text-[#0B0D10]">
+      
+      {/* 1. Global Navigation Bar */}
+      <Navbar
+        activeView={activeView}
+        setActiveView={setActiveView}
+        onOpenAuth={(mode = 'login') => setAuthModal({ isOpen: true, mode })}
+        onOpenRegister={() => setRegisterModalOpen(true)}
+      />
+
+      {/* 2. Main Page Views Router */}
+      <main className="flex-1">
         
-        {/* Status Badge */}
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs font-semibold text-emerald-400">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>App is live &amp; ready</span>
-        </div>
+        {/* VIEW A: HOME PAGE */}
+        {activeView === 'home' && (
+          <div>
+            <HeroSection
+              onSearch={handleHeroSearch}
+              onExploreMap={() => setActiveView('explore')}
+              onUseLocation={handleUseLocation}
+            />
 
-        {/* Title */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
-            <Code2 className="w-8 h-8 text-sky-400" />
-            <span>React App</span>
-          </h1>
-          <p className="text-slate-400 text-sm">
-            Clean template ready for your components and pages.
-          </p>
-        </div>
+            <CategoryGrid
+              onSelectCategory={handleSelectCategory}
+            />
 
-        {/* Interactive State Demo */}
-        <div className="p-4 rounded-xl bg-slate-850 bg-slate-800/40 border border-slate-800 space-y-3">
-          <div className="text-xs text-slate-400">State Test</div>
-          <button
-            onClick={() => setCount((prev) => prev + 1)}
-            className="w-full py-2.5 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-semibold text-sm transition cursor-pointer flex items-center justify-center space-x-2 shadow-lg shadow-sky-500/20"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Count is {count}</span>
-          </button>
-        </div>
+            <NearbyShopsSection
+              shops={shops}
+              onViewShopDetails={(shop) => setDetailsModalShop(shop)}
+              onNavigateToShop={handleToggleRoute}
+              onExploreAll={() => setActiveView('explore')}
+            />
 
-        {/* Feature Highlights */}
-        <div className="grid grid-cols-2 gap-2 text-left text-xs text-slate-300">
-          <div className="p-3 rounded-lg bg-slate-800/20 border border-slate-800 flex items-center space-x-2">
-            <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />
-            <span>Tailwind CSS</span>
+            <HomeMapAndCta
+              shops={shops}
+              selectedShop={selectedShop}
+              onSelectShop={setSelectedShop}
+              onViewShopDetails={(shop) => setDetailsModalShop(shop)}
+              onExploreAll={() => setActiveView('explore')}
+              onOpenRegister={() => setRegisterModalOpen(true)}
+            />
           </div>
-          <div className="p-3 rounded-lg bg-slate-800/20 border border-slate-800 flex items-center space-x-2">
-            <Layers className="w-4 h-4 text-sky-400 shrink-0" />
-            <span>Vite + React</span>
-          </div>
-        </div>
+        )}
 
-      </div>
+        {/* VIEW B: EXPLORE SHOPS / FULL MAP DISCOVERY PAGE */}
+        {activeView === 'explore' && (
+          <ExploreMapPage
+            shops={shops}
+            selectedShop={selectedShop}
+            onSelectShop={setSelectedShop}
+            onViewShopDetails={(shop) => setDetailsModalShop(shop)}
+            activeRouteShop={activeRouteShop}
+            onToggleRoute={handleToggleRoute}
+            initialQuery={searchQuery}
+          />
+        )}
 
-      <footer className="mt-8 text-xs text-slate-500">
-        Edit <code className="text-slate-400">src/App.jsx</code> to start building
-      </footer>
+        {/* VIEW C: SERVICES PAGE */}
+        {activeView === 'services' && (
+          <ServicesView
+            onSelectCategoryOnMap={handleSelectCategory}
+          />
+        )}
+
+        {/* VIEW D: BUSINESS OWNER DASHBOARD */}
+        {activeView === 'dashboard' && (
+          <BusinessDashboard
+            currentShop={shops[0]}
+            onUpdateShop={() => {}}
+          />
+        )}
+
+      </main>
+
+      {/* 3. Global Footer (shown on all pages except full-screen map mode) */}
+      {activeView !== 'explore' && (
+        <Footer
+          onNavigate={(view) => {
+            setActiveView(view);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onOpenRegister={() => setRegisterModalOpen(true)}
+        />
+      )}
+
+      {/* 4. Shop Details Profile Modal */}
+      {detailsModalShop && (
+        <ShopDetailsModal
+          shop={detailsModalShop}
+          onClose={() => setDetailsModalShop(null)}
+          onNavigate={(shop) => {
+            handleToggleRoute(shop);
+            setDetailsModalShop(null);
+          }}
+          isRouteActive={activeRouteShop?.id === detailsModalShop.id}
+        />
+      )}
+
+      {/* 5. User Authentication Modal */}
+      <AuthModal
+        isOpen={authModal.isOpen}
+        initialMode={authModal.mode}
+        onClose={() => setAuthModal({ isOpen: false, mode: 'login' })}
+        onLoginSuccess={(user) => setCurrentUser(user)}
+      />
+
+      {/* 6. Multi-Step Business Registration Modal */}
+      <BusinessRegistrationModal
+        isOpen={registerModalOpen}
+        onClose={() => setRegisterModalOpen(false)}
+        onRegisterComplete={handleRegisterComplete}
+      />
+
     </div>
   );
 }
