@@ -11,6 +11,7 @@ import BusinessRegistrationModal from './components/BusinessRegistrationModal';
 import BusinessDashboard from './components/BusinessDashboard';
 import ServicesView from './components/ServicesView';
 import Footer from './components/Footer';
+import ThemeCustomizer from './components/ThemeCustomizer';
 import { INITIAL_SHOPS } from './data/automotiveData';
 
 export default function App() {
@@ -93,7 +94,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0D10] text-[#F5F5F5] flex flex-col font-sans selection:bg-[#FFC400] selection:text-[#0B0D10]">
+    <div className="min-h-screen bg-midnight text-snow flex flex-col font-sans selection:bg-yellow selection:text-midnight">
       
       {/* 1. Global Navigation Bar */}
       <Navbar
@@ -205,6 +206,9 @@ export default function App() {
         onClose={() => setRegisterModalOpen(false)}
         onRegisterComplete={handleRegisterComplete}
       />
+
+      {/* 7. Live Theme Customizer Pill (Easily switch or test colors) */}
+      <ThemeCustomizer />
 
     </div>
   );

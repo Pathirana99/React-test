@@ -7,9 +7,9 @@ import {
   User, 
   Menu, 
   X, 
-  ChevronRight,
-  ShieldCheck,
-  LayoutDashboard
+  ChevronRight, 
+  ShieldCheck, 
+  LayoutDashboard 
 } from 'lucide-react';
 
 export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRegister }) {
@@ -28,7 +28,7 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#0B0D10]/95 backdrop-blur-md border-b border-[#252A32]">
+    <header className="sticky top-0 z-40 w-full bg-midnight/95 backdrop-blur-md border-b border-steel">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         
         {/* Brand Logo */}
@@ -36,21 +36,21 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
           onClick={() => setActiveView('home')} 
           className="flex items-center space-x-3 cursor-pointer group select-none"
         >
-          <div className="w-10 h-10 rounded-xl bg-[#171A20] border border-[#252A32] group-hover:border-[#FFC400] flex items-center justify-center transition-all duration-200 shadow-inner">
-            <span className="font-heading font-extrabold text-lg text-[#FFC400] tracking-tighter">
+          <div className="w-10 h-10 rounded-xl bg-graphite border border-steel group-hover:border-yellow flex items-center justify-center transition-all duration-200 shadow-inner">
+            <span className="font-heading font-extrabold text-lg text-yellow tracking-tighter">
               AP
             </span>
           </div>
           <div>
             <div className="flex items-center space-x-1.5">
-              <span className="font-heading font-extrabold text-xl text-[#F5F5F5] tracking-tight">
+              <span className="font-heading font-extrabold text-xl text-snow tracking-tight">
                 APEX
               </span>
-              <span className="font-heading font-extrabold text-xl text-[#FFC400] tracking-tight">
+              <span className="font-heading font-extrabold text-xl text-yellow tracking-tight">
                 AUTO
               </span>
             </div>
-            <div className="text-[10px] uppercase font-semibold tracking-widest text-[#A1A7B0]">
+            <div className="text-[10px] uppercase font-semibold tracking-widest text-silver">
               Automotive Services
             </div>
           </div>
@@ -67,14 +67,14 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
                 onClick={() => handleNavClick(item.id)}
                 className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-sm font-medium transition cursor-pointer ${
                   isActive
-                    ? 'text-[#F5F5F5] bg-[#171A20] border border-[#252A32]'
-                    : 'text-[#A1A7B0] hover:text-[#F5F5F5] hover:bg-[#171A20]/50'
+                    ? 'text-snow bg-graphite border border-steel'
+                    : 'text-silver hover:text-snow hover:bg-graphite/50'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-[#FFC400]' : 'text-[#A1A7B0]'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-yellow' : 'text-silver'}`} />
                 <span>{item.label}</span>
                 {isActive && (
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#FFC400] ml-1" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-yellow ml-1" />
                 )}
               </button>
             );
@@ -85,7 +85,7 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
         <div className="hidden md:flex items-center space-x-3">
           <button
             onClick={() => onOpenRegister()}
-            className="flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold text-[#A1A7B0] hover:text-[#FFC400] transition cursor-pointer"
+            className="flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold text-silver hover:text-yellow transition cursor-pointer"
           >
             <Building2 className="w-4 h-4" />
             <span>Register Business</span>
@@ -119,7 +119,7 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
           </button>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 rounded-lg bg-[#171A20] border border-[#252A32] text-[#F5F5F5]"
+            className="p-2 rounded-lg bg-graphite border border-steel text-snow"
             aria-label="Toggle Navigation"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -130,7 +130,7 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
 
       {/* Mobile Drawer */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#0B0D10] border-b border-[#252A32] px-4 pt-3 pb-6 space-y-2">
+        <div className="md:hidden bg-midnight border-b border-steel px-4 pt-3 pb-6 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeView === item.id;
@@ -140,8 +140,8 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
                 onClick={() => handleNavClick(item.id)}
                 className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium ${
                   isActive
-                    ? 'bg-[#171A20] text-[#FFC400] border border-[#252A32]'
-                    : 'text-[#A1A7B0] hover:text-[#F5F5F5]'
+                    ? 'bg-graphite text-yellow border border-steel'
+                    : 'text-silver hover:text-snow'
                 }`}
               >
                 <Icon className="w-4 h-4" />
@@ -150,7 +150,7 @@ export default function Navbar({ activeView, setActiveView, onOpenAuth, onOpenRe
             );
           })}
 
-          <div className="pt-3 border-t border-[#252A32] grid grid-cols-2 gap-2">
+          <div className="pt-3 border-t border-steel grid grid-cols-2 gap-2">
             <button
               onClick={() => {
                 setMobileOpen(false);

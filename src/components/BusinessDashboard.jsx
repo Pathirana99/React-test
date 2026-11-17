@@ -50,13 +50,13 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
   };
 
   return (
-    <div className="w-full min-h-[calc(100vh-5rem)] bg-[#0B0D10] py-8 sm:py-12">
+    <div className="w-full min-h-[calc(100vh-5rem)] bg-midnight py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         
         {/* Dashboard Top Banner */}
-        <div className="card-graphite p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-[#252A32]">
+        <div className="card-graphite p-6 sm:p-8 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-steel">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 rounded-xl bg-[#0B0D10] border border-[#252A32] overflow-hidden shrink-0">
+            <div className="w-16 h-16 rounded-xl bg-midnight border border-steel overflow-hidden shrink-0">
               <img
                 src={currentShop?.coverImage || 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80'}
                 alt="Workshop logo"
@@ -65,7 +65,7 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
             </div>
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#FFC400]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-yellow">
                   Owner Portal
                 </span>
                 <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center space-x-1 font-semibold">
@@ -73,11 +73,11 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
                   <span>Verified &amp; Live</span>
                 </span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F5] font-heading">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-snow font-heading">
                 {currentShop?.name || 'Apex Performance Garage & Tuning'}
               </h2>
-              <div className="text-xs text-[#A1A7B0] flex items-center space-x-1.5">
-                <MapPin className="w-3.5 h-3.5 text-[#FFC400]" />
+              <div className="text-xs text-silver flex items-center space-x-1.5">
+                <MapPin className="w-3.5 h-3.5 text-yellow" />
                 <span>{currentShop?.location || '482 Industrial Parkway, West District'}</span>
               </div>
             </div>
@@ -95,62 +95,62 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
 
         {/* Analytics KPI Bento Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="p-5 rounded-2xl bg-[#171A20] border border-[#252A32] space-y-2">
-            <div className="flex items-center justify-between text-[#A1A7B0]">
+          <div className="p-5 rounded-2xl bg-graphite border border-steel space-y-2">
+            <div className="flex items-center justify-between text-silver">
               <span className="text-xs font-semibold">Driver Profile Visits</span>
-              <Eye className="w-4 h-4 text-[#FFC400]" />
+              <Eye className="w-4 h-4 text-yellow" />
             </div>
-            <div className="font-heading font-extrabold text-2xl text-[#F5F5F5]">
+            <div className="font-heading font-extrabold text-2xl text-snow">
               {MOCK_OWNER_STATS.profileViews}
             </div>
-            <div className="text-[11px] text-[#22C55E] flex items-center space-x-1">
+            <div className="text-[11px] text-success flex items-center space-x-1">
               <TrendingUp className="w-3 h-3" />
               <span>+18.4% this month</span>
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#171A20] border border-[#252A32] space-y-2">
-            <div className="flex items-center justify-between text-[#A1A7B0]">
+          <div className="p-5 rounded-2xl bg-graphite border border-steel space-y-2">
+            <div className="flex items-center justify-between text-silver">
               <span className="text-xs font-semibold">Search Impressions</span>
-              <Search className="w-4 h-4 text-[#3B82F6]" />
+              <Search className="w-4 h-4 text-info" />
             </div>
-            <div className="font-heading font-extrabold text-2xl text-[#F5F5F5]">
+            <div className="font-heading font-extrabold text-2xl text-snow">
               {MOCK_OWNER_STATS.searchImpressions}
             </div>
-            <div className="text-[11px] text-[#A1A7B0]">
+            <div className="text-[11px] text-silver">
               Appeared in nearby discovery
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#171A20] border border-[#252A32] space-y-2">
-            <div className="flex items-center justify-between text-[#A1A7B0]">
+          <div className="p-5 rounded-2xl bg-graphite border border-steel space-y-2">
+            <div className="flex items-center justify-between text-silver">
               <span className="text-xs font-semibold">Directions Requested</span>
-              <Navigation className="w-4 h-4 text-[#22C55E]" />
+              <Navigation className="w-4 h-4 text-success" />
             </div>
-            <div className="font-heading font-extrabold text-2xl text-[#F5F5F5]">
+            <div className="font-heading font-extrabold text-2xl text-snow">
               {MOCK_OWNER_STATS.directionsRequested}
             </div>
-            <div className="text-[11px] text-[#22C55E]">
+            <div className="text-[11px] text-success">
               Customers navigated to bay
             </div>
           </div>
 
-          <div className="p-5 rounded-2xl bg-[#171A20] border border-[#252A32] space-y-2">
-            <div className="flex items-center justify-between text-[#A1A7B0]">
+          <div className="p-5 rounded-2xl bg-graphite border border-steel space-y-2">
+            <div className="flex items-center justify-between text-silver">
               <span className="text-xs font-semibold">Average Rating</span>
-              <Star className="w-4 h-4 text-[#FFC400] fill-current" />
+              <Star className="w-4 h-4 text-yellow fill-current" />
             </div>
-            <div className="font-heading font-extrabold text-2xl text-[#FFC400]">
+            <div className="font-heading font-extrabold text-2xl text-yellow">
               {MOCK_OWNER_STATS.ratingAverage} / 5.0
             </div>
-            <div className="text-[11px] text-[#A1A7B0]">
+            <div className="text-[11px] text-silver">
               Based on {MOCK_OWNER_STATS.totalReviews} verified reviews
             </div>
           </div>
         </div>
 
         {/* Dashboard Navigation Tabs */}
-        <div className="flex items-center space-x-2 border-b border-[#252A32] pb-3 text-xs font-semibold overflow-x-auto">
+        <div className="flex items-center space-x-2 border-b border-steel pb-3 text-xs font-semibold overflow-x-auto">
           {[
             { id: 'overview', label: 'Services Catalog' },
             { id: 'hours', label: 'Operating Schedule' },
@@ -162,8 +162,8 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-xl transition cursor-pointer whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-[#FFC400] text-[#0B0D10] font-bold shadow-md'
-                  : 'text-[#A1A7B0] hover:text-[#F5F5F5] hover:bg-[#171A20]'
+                  ? 'bg-yellow text-midnight font-bold shadow-md'
+                  : 'text-silver hover:text-snow hover:bg-graphite'
               }`}
             >
               {tab.label}
@@ -176,14 +176,14 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
           <div className="card-graphite p-6 sm:p-8 rounded-2xl space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h3 className="text-lg font-bold text-[#F5F5F5] font-heading">
+                <h3 className="text-lg font-bold text-snow font-heading">
                   Manage Published Services
                 </h3>
-                <p className="text-xs text-[#A1A7B0] mt-0.5">
+                <p className="text-xs text-silver mt-0.5">
                   Vehicle owners can filter and discover your business using these listed services.
                 </p>
               </div>
-              <span className="text-xs font-bold px-3 py-1 rounded bg-[#0B0D10] border border-[#252A32] text-[#FFC400] self-start sm:self-auto">
+              <span className="text-xs font-bold px-3 py-1 rounded bg-midnight border border-steel text-yellow self-start sm:self-auto">
                 {servicesList.length} Active Services
               </span>
             </div>
@@ -211,15 +211,15 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
               {servicesList.map((srv, idx) => (
                 <div
                   key={idx}
-                  className="p-3.5 rounded-xl bg-[#0B0D10] border border-[#252A32] flex items-center justify-between group"
+                  className="p-3.5 rounded-xl bg-midnight border border-steel flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="w-2 h-2 rounded-full bg-[#FFC400]" />
-                    <span className="text-xs font-semibold text-[#F5F5F5]">{srv}</span>
+                    <span className="w-2 h-2 rounded-full bg-yellow" />
+                    <span className="text-xs font-semibold text-snow">{srv}</span>
                   </div>
                   <button
                     onClick={() => handleDeleteService(idx)}
-                    className="text-[#A1A7B0] hover:text-red-400 p-1 rounded transition opacity-80 group-hover:opacity-100"
+                    className="text-silver hover:text-red-400 p-1 rounded transition opacity-80 group-hover:opacity-100"
                     title="Remove Service"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -234,17 +234,17 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
         {activeTab === 'hours' && (
           <div className="card-graphite p-6 sm:p-8 rounded-2xl space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-[#F5F5F5] font-heading">
+              <h3 className="text-lg font-bold text-snow font-heading">
                 Operating Hours &amp; Working Days
               </h3>
-              <p className="text-xs text-[#A1A7B0] mt-0.5">
+              <p className="text-xs text-silver mt-0.5">
                 Ensure customers know when your bay doors are open for vehicle check-in.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
-              <div className="p-4 rounded-xl bg-[#0B0D10] border border-[#252A32] space-y-2">
-                <label className="text-xs font-bold text-[#F5F5F5] block">Weekdays (Mon - Fri)</label>
+              <div className="p-4 rounded-xl bg-midnight border border-steel space-y-2">
+                <label className="text-xs font-bold text-snow block">Weekdays (Mon - Fri)</label>
                 <input
                   type="text"
                   defaultValue="07:30 AM - 06:30 PM"
@@ -252,8 +252,8 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
                 />
               </div>
 
-              <div className="p-4 rounded-xl bg-[#0B0D10] border border-[#252A32] space-y-2">
-                <label className="text-xs font-bold text-[#F5F5F5] block">Saturday</label>
+              <div className="p-4 rounded-xl bg-midnight border border-steel space-y-2">
+                <label className="text-xs font-bold text-snow block">Saturday</label>
                 <input
                   type="text"
                   defaultValue="08:00 AM - 04:00 PM"
@@ -261,15 +261,15 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
                 />
               </div>
 
-              <div className="p-4 rounded-xl bg-[#0B0D10] border border-[#252A32] space-y-2 sm:col-span-2">
-                <label className="text-xs font-bold text-[#F5F5F5] block">Sunday Status</label>
-                <div className="flex items-center space-x-4 text-xs text-[#A1A7B0]">
+              <div className="p-4 rounded-xl bg-midnight border border-steel space-y-2 sm:col-span-2">
+                <label className="text-xs font-bold text-snow block">Sunday Status</label>
+                <div className="flex items-center space-x-4 text-xs text-silver">
                   <label className="flex items-center space-x-2 cursor-pointer">
-                    <input type="radio" name="sun" defaultChecked className="accent-[#FFC400]" />
+                    <input type="radio" name="sun" defaultChecked className="accent-yellow" />
                     <span>Closed</span>
                   </label>
                   <label className="flex items-center space-x-2 cursor-pointer">
-                    <input type="radio" name="sun" className="accent-[#FFC400]" />
+                    <input type="radio" name="sun" className="accent-yellow" />
                     <span>Emergency Roadside Only</span>
                   </label>
                 </div>
@@ -282,17 +282,17 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
         {activeTab === 'location' && (
           <div className="card-graphite p-6 sm:p-8 rounded-2xl space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-[#F5F5F5] font-heading">
+              <h3 className="text-lg font-bold text-snow font-heading">
                 Shop Address &amp; Map Coordinates
               </h3>
-              <p className="text-xs text-[#A1A7B0] mt-0.5">
+              <p className="text-xs text-silver mt-0.5">
                 Used to compute distance from vehicle owners and provide turn-by-turn directions.
               </p>
             </div>
 
             <div className="space-y-4 max-w-xl">
               <div>
-                <label className="block text-xs uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-xs uppercase font-bold text-silver mb-1">
                   Full Street Address
                 </label>
                 <input
@@ -304,7 +304,7 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-xs uppercase font-bold text-silver mb-1">
                     Latitude
                   </label>
                   <input
@@ -314,7 +314,7 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-xs uppercase font-bold text-silver mb-1">
                     Longitude
                   </label>
                   <input
@@ -333,15 +333,15 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
           <div className="card-graphite p-6 sm:p-8 rounded-2xl space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-bold text-[#F5F5F5] font-heading">
+                <h3 className="text-lg font-bold text-snow font-heading">
                   Workshop Gallery &amp; Equipment Photos
                 </h3>
-                <p className="text-xs text-[#A1A7B0] mt-0.5">
+                <p className="text-xs text-silver mt-0.5">
                   High-quality photography builds trust with performance vehicle owners.
                 </p>
               </div>
               <button className="btn-secondary px-3.5 py-2 text-xs flex items-center space-x-1.5">
-                <Upload className="w-3.5 h-3.5 text-[#FFC400]" />
+                <Upload className="w-3.5 h-3.5 text-yellow" />
                 <span>Add Photos</span>
               </button>
             </div>
@@ -352,10 +352,10 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
                 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80',
                 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=800&q=80'
               ].map((img, idx) => (
-                <div key={idx} className="relative aspect-[16/10] rounded-xl overflow-hidden border border-[#252A32] group">
+                <div key={idx} className="relative aspect-[16/10] rounded-xl overflow-hidden border border-steel group">
                   <img src={img} alt="Gallery" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
-                    <button className="p-2 rounded-lg bg-black/80 text-white hover:text-[#FFC400]">
+                    <button className="p-2 rounded-lg bg-black/80 text-white hover:text-yellow">
                       <Edit3 className="w-4 h-4" />
                     </button>
                     <button className="p-2 rounded-lg bg-black/80 text-white hover:text-red-400">

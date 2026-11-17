@@ -30,18 +30,18 @@ const iconMap = {
 
 export default function ServicesView({ onSelectCategoryOnMap }) {
   return (
-    <div className="w-full bg-[#0B0D10] py-12 sm:py-16">
+    <div className="w-full bg-midnight py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
         <div className="space-y-3 max-w-2xl">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#171A20] border border-[#252A32] text-xs font-bold text-[#FFC400]">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-graphite border border-steel text-xs font-bold text-yellow">
             <span>AUTOMOTIVE REPAIR &amp; PARTS DIRECTORY</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-[#F5F5F5] font-heading tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-snow font-heading tracking-tight">
             Specialized Automotive Services
           </h2>
-          <p className="text-[#A1A7B0] text-sm sm:text-base leading-relaxed">
+          <p className="text-silver text-sm sm:text-base leading-relaxed">
             Find certified centers equipped with factory-grade diagnostic computers, certified technicians, and genuine OEM inventory.
           </p>
         </div>
@@ -53,54 +53,54 @@ export default function ServicesView({ onSelectCategoryOnMap }) {
             return (
               <div
                 key={cat.id}
-                className="card-graphite p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 group hover:border-[#FFC400]/40 transition"
+                className="card-graphite p-6 sm:p-8 rounded-2xl flex flex-col justify-between space-y-6 group hover:border-yellow/40 transition"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl bg-[#0B0D10] border border-[#252A32] flex items-center justify-center text-[#FFC400]">
+                    <div className="w-12 h-12 rounded-xl bg-midnight border border-steel flex items-center justify-center text-yellow">
                       <Icon className="w-6 h-6 group-hover:scale-110 transition-transform" />
                     </div>
-                    <span className="text-xs font-bold text-[#FFC400] bg-[#FFC400]/10 px-3 py-1 rounded-lg border border-[#FFC400]/20">
+                    <span className="text-xs font-bold text-yellow bg-yellow/10 px-3 py-1 rounded-lg border border-yellow/20">
                       {cat.count}
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="text-xl font-bold font-heading text-[#F5F5F5] group-hover:text-[#FFC400] transition">
+                    <h3 className="text-xl font-bold font-heading text-snow group-hover:text-yellow transition">
                       {cat.name}
                     </h3>
-                    <p className="text-xs sm:text-sm text-[#A1A7B0] mt-1.5 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-silver mt-1.5 leading-relaxed">
                       {cat.description}
                     </p>
                   </div>
 
                   {/* Typical Services Checklist */}
-                  <div className="pt-3 border-t border-[#252A32] space-y-2">
-                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#A1A7B0]">
+                  <div className="pt-3 border-t border-steel space-y-2">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-silver">
                       Common Offerings
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-[#F5F5F5]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 text-xs text-snow">
                       <div className="flex items-center space-x-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                         <span>Factory Diagnostics</span>
                       </div>
                       <div className="flex items-center space-x-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                         <span>Certified Mechanics</span>
                       </div>
                       <div className="flex items-center space-x-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                         <span>Genuine Components</span>
                       </div>
                       <div className="flex items-center space-x-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#22C55E]" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-success" />
                         <span>Turn-by-Turn GPS</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-[#252A32]">
+                <div className="pt-4 border-t border-steel">
                   <button
                     onClick={() => onSelectCategoryOnMap(cat.id)}
                     className="w-full btn-primary py-2.5 px-4 text-xs font-bold flex items-center justify-center space-x-2 cursor-pointer"

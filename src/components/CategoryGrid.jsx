@@ -7,7 +7,7 @@ import {
   CircleDot, 
   PackageCheck, 
   Zap, 
-  ShieldCheck,
+  ShieldCheck, 
   ArrowUpRight 
 } from 'lucide-react';
 import { CATEGORIES } from '../data/automotiveData';
@@ -25,25 +25,25 @@ const iconMap = {
 
 export default function CategoryGrid({ onSelectCategory }) {
   return (
-    <section id="categories" className="py-16 sm:py-24 bg-[#0B0D10] border-b border-[#252A32]">
+    <section id="categories" className="py-16 sm:py-24 bg-midnight border-b border-steel">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="flex items-center space-x-2 text-[#FFC400] text-xs font-bold uppercase tracking-wider mb-2">
-              <span className="w-2 h-2 rounded-full bg-[#FFC400]" />
+            <div className="flex items-center space-x-2 text-yellow text-xs font-bold uppercase tracking-wider mb-2">
+              <span className="w-2 h-2 rounded-full bg-yellow" />
               <span>Automotive Directory Categories</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#F5F5F5] font-heading tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-snow font-heading tracking-tight">
               Explore by Specialization
             </h2>
-            <p className="text-[#A1A7B0] text-sm sm:text-base mt-2 max-w-xl">
+            <p className="text-silver text-sm sm:text-base mt-2 max-w-xl">
               From routine oil renewals to full chassis track preparation and verified OEM spare components.
             </p>
           </div>
 
-          <div className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#171A20] border border-[#252A32] text-[#A1A7B0] self-start sm:self-auto">
+          <div className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-graphite border border-steel text-silver self-start sm:self-auto">
             8 Specialized Sectors
           </div>
         </div>
@@ -60,23 +60,23 @@ export default function CategoryGrid({ onSelectCategory }) {
               >
                 <div className="space-y-4">
                   {/* Category Icon Badge */}
-                  <div className="w-12 h-12 rounded-xl bg-[#0B0D10] border border-[#252A32] group-hover:border-[#FFC400] flex items-center justify-center transition-colors">
-                    <IconComponent className="w-6 h-6 text-[#FFC400] group-hover:scale-110 transition-transform" />
+                  <div className="w-12 h-12 rounded-xl bg-midnight border border-steel group-hover:border-yellow flex items-center justify-center transition-colors">
+                    <IconComponent className="w-6 h-6 text-yellow group-hover:scale-110 transition-transform" />
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-bold text-[#F5F5F5] group-hover:text-[#FFC400] transition-colors font-heading">
+                    <h3 className="text-lg font-bold text-snow group-hover:text-yellow transition-colors font-heading">
                       {cat.name}
                     </h3>
-                    <p className="text-[#A1A7B0] text-xs leading-relaxed mt-1.5">
+                    <p className="text-silver text-xs leading-relaxed mt-1.5">
                       {cat.description}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-[#252A32] flex items-center justify-between text-xs font-semibold text-[#A1A7B0] group-hover:text-[#F5F5F5]">
+                <div className="pt-3 border-t border-steel flex items-center justify-between text-xs font-semibold text-silver group-hover:text-snow">
                   <span>{cat.count}</span>
-                  <div className="w-6 h-6 rounded-full bg-[#252A32] group-hover:bg-[#FFC400] group-hover:text-[#0B0D10] flex items-center justify-center transition-colors">
+                  <div className="w-6 h-6 rounded-full bg-steel group-hover:bg-yellow group-hover:text-midnight flex items-center justify-center transition-colors">
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </div>
                 </div>

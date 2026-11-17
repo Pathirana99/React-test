@@ -9,8 +9,8 @@ import {
   ChevronLeft, 
   Upload, 
   Clock, 
-  ShieldCheck,
-  Navigation
+  ShieldCheck, 
+  Navigation 
 } from 'lucide-react';
 import { CATEGORIES } from '../data/automotiveData';
 
@@ -99,32 +99,32 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
       
       <div 
-        className="relative w-full max-w-3xl bg-[#171A20] border border-[#252A32] rounded-3xl shadow-2xl p-6 sm:p-8 my-8 max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-3xl bg-graphite border border-steel rounded-3xl shadow-2xl p-6 sm:p-8 my-8 max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-[#A1A7B0] hover:text-[#F5F5F5] p-1.5 rounded-lg hover:bg-[#252A32] transition"
+          className="absolute top-5 right-5 text-silver hover:text-snow p-1.5 rounded-lg hover:bg-steel transition"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Wizard Header */}
         <div className="space-y-1 mb-6 text-left">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#0B0D10] border border-[#252A32] text-[11px] font-bold text-[#FFC400]">
+          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-midnight border border-steel text-[11px] font-bold text-yellow">
             <span>PARTNER WITH APEX AUTO</span>
           </div>
-          <h3 className="text-2xl font-bold font-heading text-[#F5F5F5]">
+          <h3 className="text-2xl font-bold font-heading text-snow">
             Register Your Automotive Business
           </h3>
-          <p className="text-xs text-[#A1A7B0]">
+          <p className="text-xs text-silver">
             Publish your workshop on the live discovery map and reach thousands of drivers.
           </p>
         </div>
 
         {/* Multi-Step Indicator */}
-        <div className="grid grid-cols-4 gap-2 mb-8 border-b border-[#252A32] pb-5">
+        <div className="grid grid-cols-4 gap-2 mb-8 border-b border-steel pb-5">
           {steps.map((s) => {
             const Icon = s.icon;
             const isCompleted = currentStep > s.num;
@@ -134,23 +134,23 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
               <div 
                 key={s.num}
                 className={`flex flex-col items-center sm:items-start space-y-1.5 transition ${
-                  isCurrent ? 'text-[#FFC400]' : isCompleted ? 'text-emerald-400' : 'text-[#A1A7B0]'
+                  isCurrent ? 'text-yellow' : isCompleted ? 'text-emerald-400' : 'text-silver'
                 }`}
               >
                 <div className="flex items-center space-x-2">
                   <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold border ${
                     isCurrent 
-                      ? 'bg-[#FFC400] text-[#0B0D10] border-[#FFC400]' 
+                      ? 'bg-yellow text-midnight border-yellow' 
                       : isCompleted 
                       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' 
-                      : 'bg-[#0B0D10] border-[#252A32] text-[#A1A7B0]'
+                      : 'bg-midnight border-steel text-silver'
                   }`}>
                     {isCompleted ? <CheckCircle2 className="w-4 h-4" /> : s.num}
                   </div>
                   <span className="hidden sm:inline text-xs font-semibold">{s.title}</span>
                 </div>
                 <div className={`w-full h-1 rounded-full mt-1 ${
-                  isCurrent ? 'bg-[#FFC400]' : isCompleted ? 'bg-emerald-400' : 'bg-[#252A32]'
+                  isCurrent ? 'bg-yellow' : isCompleted ? 'bg-emerald-400' : 'bg-steel'
                 }`} />
               </div>
             );
@@ -164,7 +164,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
           {currentStep === 1 && (
             <div className="space-y-4 text-left">
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Business Name *
                 </label>
                 <input
@@ -178,7 +178,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Primary Category *
                 </label>
                 <select
@@ -191,7 +191,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   className="w-full input-dark px-4 py-2.5 text-xs sm:text-sm cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.id} value={cat.id} className="bg-[#171A20] text-[#F5F5F5]">
+                    <option key={cat.id} value={cat.id} className="bg-graphite text-snow">
                       {cat.name}
                     </option>
                   ))}
@@ -199,7 +199,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
               </div>
 
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Description *
                 </label>
                 <textarea
@@ -213,7 +213,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                     Contact Phone *
                   </label>
                   <input
@@ -227,7 +227,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                 </div>
 
                 <div>
-                  <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                     Business Email *
                   </label>
                   <input
@@ -247,7 +247,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
           {currentStep === 2 && (
             <div className="space-y-4 text-left">
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Street Address *
                 </label>
                 <input
@@ -262,7 +262,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                     City / Town
                   </label>
                   <input
@@ -273,7 +273,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                     Province / State
                   </label>
                   <input
@@ -284,7 +284,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                  <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                     Postal Code
                   </label>
                   <input
@@ -300,21 +300,21 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
               {/* Interactive Pin Dropper Map */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-[#F5F5F5] flex items-center space-x-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#FFC400]" />
+                  <span className="font-bold text-snow flex items-center space-x-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-yellow" />
                     <span>Click on the Map to Pin Exact Location</span>
                   </span>
-                  <span className="text-[#FFC400] text-[11px]">
+                  <span className="text-yellow text-[11px]">
                     Lat: {formData.lat}, Lng: {formData.lng}
                   </span>
                 </div>
 
                 <div 
                   onClick={handleMapClick}
-                  className="relative w-full h-52 rounded-xl bg-[#0B0D10] border-2 border-[#252A32] hover:border-[#FFC400]/50 cursor-crosshair overflow-hidden group select-none"
+                  className="relative w-full h-52 rounded-xl bg-midnight border-2 border-steel hover:border-yellow/50 cursor-crosshair overflow-hidden group select-none"
                 >
                   {/* Grid Lines */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#171A20_1px,transparent_1px),linear-gradient(to_bottom,#171A20_1px,transparent_1px)] bg-[size:20px_20px]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-graphite)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-graphite)_1px,transparent_1px)] bg-[size:20px_20px]" />
                   
                   {/* Interactive Pinned Marker */}
                   <div 
@@ -322,17 +322,17 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                     style={{ left: `${formData.coords.x}%`, top: `${formData.coords.y}%` }}
                   >
                     <div className="relative flex flex-col items-center">
-                      <span className="animate-ping absolute -inset-1 rounded-full bg-[#FFC400] opacity-75" />
-                      <div className="relative w-8 h-8 rounded-full bg-[#FFC400] text-[#0B0D10] flex items-center justify-center font-bold shadow-lg shadow-yellow-500/50">
+                      <span className="animate-ping absolute -inset-1 rounded-full bg-yellow opacity-75" />
+                      <div className="relative w-8 h-8 rounded-full bg-yellow text-midnight flex items-center justify-center font-bold shadow-lg shadow-yellow/50">
                         <MapPin className="w-4 h-4 fill-current" />
                       </div>
-                      <div className="text-[10px] bg-[#0B0D10] text-[#FFC400] border border-[#252A32] px-2 py-0.5 rounded mt-1 font-bold whitespace-nowrap">
+                      <div className="text-[10px] bg-midnight text-yellow border border-steel px-2 py-0.5 rounded mt-1 font-bold whitespace-nowrap">
                         Pinned Shop
                       </div>
                     </div>
                   </div>
 
-                  <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-[#171A20]/80 border border-[#252A32] text-[10px] text-[#A1A7B0]">
+                  <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded bg-graphite/80 border border-steel text-[10px] text-silver">
                     Click anywhere on this grid to relocate your shop pin
                   </div>
                 </div>
@@ -344,11 +344,11 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
           {currentStep === 3 && (
             <div className="space-y-4 text-left">
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Operating Hours
                 </label>
                 <div className="relative">
-                  <Clock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A1A7B0]" />
+                  <Clock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-silver" />
                   <input
                     type="text"
                     value={formData.openingHours}
@@ -361,7 +361,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
 
               {/* Service Badges Builder */}
               <div className="space-y-2">
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0]">
+                <label className="block text-[11px] uppercase font-bold text-silver">
                   Available Services &amp; Specialties
                 </label>
                 <div className="flex gap-2">
@@ -376,7 +376,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   <button
                     type="button"
                     onClick={handleAddService}
-                    className="btn-secondary px-4 py-2 text-xs font-bold text-[#FFC400]"
+                    className="btn-secondary px-4 py-2 text-xs font-bold text-yellow"
                   >
                     Add
                   </button>
@@ -386,13 +386,13 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   {formData.services.map((srv, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1 rounded-lg bg-[#0B0D10] border border-[#252A32] text-xs text-[#F5F5F5] flex items-center space-x-1.5"
+                      className="px-3 py-1 rounded-lg bg-midnight border border-steel text-xs text-snow flex items-center space-x-1.5"
                     >
                       <span>{srv}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveService(idx)}
-                        className="text-[#A1A7B0] hover:text-red-400 font-bold ml-1"
+                        className="text-silver hover:text-red-400 font-bold ml-1"
                       >
                         ×
                       </button>
@@ -403,7 +403,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
 
               {/* Photos & Cover */}
               <div>
-                <label className="block text-[11px] uppercase font-bold text-[#A1A7B0] mb-1">
+                <label className="block text-[11px] uppercase font-bold text-silver mb-1">
                   Workshop Cover Photo URL
                 </label>
                 <input
@@ -412,7 +412,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   onChange={(e) => handleChange('photoUrl', e.target.value)}
                   className="w-full input-dark px-4 py-2.5 text-xs sm:text-sm"
                 />
-                <div className="mt-2 h-28 rounded-xl overflow-hidden border border-[#252A32] bg-[#0B0D10]">
+                <div className="mt-2 h-28 rounded-xl overflow-hidden border border-steel bg-midnight">
                   <img
                     src={formData.photoUrl}
                     alt="Preview"
@@ -429,9 +429,9 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
           {/* STEP 4: REVIEW AND PUBLISH */}
           {currentStep === 4 && (
             <div className="space-y-4 text-left">
-              <div className="p-4 rounded-xl bg-[#0B0D10] border border-[#252A32] space-y-3">
+              <div className="p-4 rounded-xl bg-midnight border border-steel space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase font-bold text-[#FFC400]">
+                  <span className="text-xs uppercase font-bold text-yellow">
                     {formData.category}
                   </span>
                   <span className="text-xs text-emerald-400 flex items-center space-x-1">
@@ -440,15 +440,15 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   </span>
                 </div>
 
-                <h4 className="text-xl font-bold font-heading text-[#F5F5F5]">
+                <h4 className="text-xl font-bold font-heading text-snow">
                   {formData.businessName || 'Untitled Automotive Business'}
                 </h4>
 
-                <p className="text-xs text-[#A1A7B0]">
+                <p className="text-xs text-silver">
                   {formData.description || 'No description provided.'}
                 </p>
 
-                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[#252A32] text-xs text-[#A1A7B0]">
+                <div className="grid grid-cols-2 gap-2 pt-2 border-t border-steel text-xs text-silver">
                   <div><strong>Address:</strong> {formData.address || 'Not specified'}, {formData.city}</div>
                   <div><strong>Phone:</strong> {formData.phone || 'N/A'}</div>
                   <div><strong>GPS Coordinates:</strong> {formData.lat}, {formData.lng}</div>
@@ -456,12 +456,12 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                 </div>
 
                 <div className="pt-2">
-                  <div className="text-[10px] uppercase font-bold text-[#A1A7B0] mb-1.5">
+                  <div className="text-[10px] uppercase font-bold text-silver mb-1.5">
                     Cataloged Services ({formData.services.length})
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {formData.services.map((s, idx) => (
-                      <span key={idx} className="px-2 py-0.5 rounded bg-[#171A20] border border-[#252A32] text-[11px] text-[#F5F5F5]">
+                      <span key={idx} className="px-2 py-0.5 rounded bg-graphite border border-steel text-[11px] text-snow">
                         {s}
                       </span>
                     ))}
@@ -479,7 +479,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
         </div>
 
         {/* Wizard Footer Navigation Controls */}
-        <div className="mt-6 pt-4 border-t border-[#252A32] flex items-center justify-between">
+        <div className="mt-6 pt-4 border-t border-steel flex items-center justify-between">
           {currentStep > 1 ? (
             <button
               type="button"

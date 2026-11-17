@@ -1,12 +1,8 @@
+import { THEME_COLORS } from '../theme/colors';
+
 /**
  * APEX AUTO - Automotive Services Discovery & Parts Marketplace Data
- * Colors strictly follow:
- * - Midnight Black: #0B0D10
- * - Racing Yellow: #FFC400
- * - Graphite: #171A20
- * - Steel Grey: #252A32
- * - Snow White: #F5F5F5
- * - Muted Silver: #A1A7B0
+ * Colors dynamically reference src/theme/colors.js
  */
 
 export const CATEGORIES = [
@@ -16,7 +12,7 @@ export const CATEGORIES = [
     icon: "Warehouse",
     count: "48 Garages",
     description: "Full-service automotive workshops and certified mechanic bays",
-    markerColor: "#FFC400" // Racing Yellow
+    markerColor: THEME_COLORS.racingYellow
   },
   {
     id: "repair",
@@ -24,7 +20,7 @@ export const CATEGORIES = [
     icon: "Wrench",
     count: "62 Centers",
     description: "Engine diagnostics, gearbox rebuilds, suspensions, and brakes",
-    markerColor: "#3B82F6" // Information Blue
+    markerColor: THEME_COLORS.infoBlue
   },
   {
     id: "maintenance",
@@ -32,7 +28,7 @@ export const CATEGORIES = [
     icon: "Gauge",
     count: "35 Centers",
     description: "Scheduled oil changes, filter renewals, fluid flushes, inspections",
-    markerColor: "#3B82F6"
+    markerColor: THEME_COLORS.infoBlue
   },
   {
     id: "detailing",
@@ -40,7 +36,7 @@ export const CATEGORIES = [
     icon: "Sparkles",
     count: "29 Centers",
     description: "Ceramic coating, paint correction, interior steam clean, PPF",
-    markerColor: "#3B82F6"
+    markerColor: THEME_COLORS.infoBlue
   },
   {
     id: "tires",
@@ -48,7 +44,7 @@ export const CATEGORIES = [
     icon: "CircleDot",
     count: "41 Centers",
     description: "High-performance tires, 3D laser alignment, balancing, puncture repair",
-    markerColor: "#FFC400"
+    markerColor: THEME_COLORS.racingYellow
   },
   {
     id: "parts",
@@ -56,7 +52,7 @@ export const CATEGORIES = [
     icon: "PackageCheck",
     count: "84 Stores",
     description: "OEM & aftermarket parts, turbos, exhaust systems, performance chips",
-    markerColor: "#22C55E" // Success Green
+    markerColor: THEME_COLORS.successGreen
   },
   {
     id: "electrical",
@@ -64,7 +60,7 @@ export const CATEGORIES = [
     icon: "Zap",
     count: "24 Centers",
     description: "ECU remapping, sensor diagnostics, alternator, battery systems",
-    markerColor: "#3B82F6"
+    markerColor: THEME_COLORS.infoBlue
   },
   {
     id: "bodywork",
@@ -72,7 +68,7 @@ export const CATEGORIES = [
     icon: "ShieldCheck",
     count: "19 Studios",
     description: "Accident restoration, computerized color matching, dent repair",
-    markerColor: "#FFC400"
+    markerColor: THEME_COLORS.racingYellow
   }
 ];
 

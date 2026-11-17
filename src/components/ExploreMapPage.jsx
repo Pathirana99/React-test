@@ -9,9 +9,9 @@ import {
   ShieldCheck, 
   ExternalLink, 
   X, 
-  SlidersHorizontal,
-  ChevronDown,
-  Sparkles
+  SlidersHorizontal, 
+  ChevronDown, 
+  Sparkles 
 } from 'lucide-react';
 import InteractiveMap from './InteractiveMap';
 
@@ -65,26 +65,26 @@ export default function ExploreMapPage({
   ];
 
   return (
-    <div className="w-full h-[calc(100vh-5rem)] min-h-[600px] flex flex-col bg-[#0B0D10] overflow-hidden">
+    <div className="w-full h-[calc(100vh-5rem)] min-h-[600px] flex flex-col bg-midnight overflow-hidden">
       
       {/* Top Filter & Search Bar */}
-      <div className="bg-[#171A20] border-b border-[#252A32] px-4 sm:px-6 py-3.5 z-20 space-y-3">
+      <div className="bg-graphite border-b border-steel px-4 sm:px-6 py-3.5 z-20 space-y-3">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           
           {/* Search Box */}
           <div className="relative flex-1 max-w-xl">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFC400]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-yellow" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by business name, automotive service, or location..."
-              className="w-full bg-[#0B0D10] border border-[#252A32] focus:border-[#FFC400] text-[#F5F5F5] placeholder-[#A1A7B0] text-xs sm:text-sm pl-10 pr-9 py-2.5 rounded-xl outline-none transition"
+              className="w-full bg-midnight border border-steel focus:border-yellow text-snow placeholder-silver text-xs sm:text-sm pl-10 pr-9 py-2.5 rounded-xl outline-none transition"
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A1A7B0] hover:text-[#F5F5F5]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-silver hover:text-snow"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -98,10 +98,10 @@ export default function ExploreMapPage({
               className={`px-3 py-2 rounded-xl border flex items-center space-x-1.5 whitespace-nowrap transition cursor-pointer ${
                 openNowOnly
                   ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold'
-                  : 'bg-[#0B0D10] border-[#252A32] text-[#A1A7B0] hover:text-[#F5F5F5]'
+                  : 'bg-midnight border-steel text-silver hover:text-snow'
               }`}
             >
-              <span className={`w-2 h-2 rounded-full ${openNowOnly ? 'bg-emerald-400' : 'bg-[#A1A7B0]'}`} />
+              <span className={`w-2 h-2 rounded-full ${openNowOnly ? 'bg-emerald-400' : 'bg-silver'}`} />
               <span>Open Now</span>
             </button>
 
@@ -109,8 +109,8 @@ export default function ExploreMapPage({
               onClick={() => setHighRatedOnly(!highRatedOnly)}
               className={`px-3 py-2 rounded-xl border flex items-center space-x-1.5 whitespace-nowrap transition cursor-pointer ${
                 highRatedOnly
-                  ? 'bg-[#FFC400]/10 border-[#FFC400] text-[#FFC400] font-bold'
-                  : 'bg-[#0B0D10] border-[#252A32] text-[#A1A7B0] hover:text-[#F5F5F5]'
+                  ? 'bg-yellow/10 border-yellow text-yellow font-bold'
+                  : 'bg-midnight border-steel text-silver hover:text-snow'
               }`}
             >
               <Star className="w-3.5 h-3.5 fill-current" />
@@ -118,11 +118,11 @@ export default function ExploreMapPage({
             </button>
 
             {/* Mobile View Toggle (List vs Map) */}
-            <div className="md:hidden flex items-center p-0.5 rounded-lg bg-[#0B0D10] border border-[#252A32]">
+            <div className="md:hidden flex items-center p-0.5 rounded-lg bg-midnight border border-steel">
               <button
                 onClick={() => setMobileViewTab('list')}
                 className={`px-2.5 py-1.5 rounded-md text-xs font-semibold ${
-                  mobileViewTab === 'list' ? 'bg-[#FFC400] text-[#0B0D10]' : 'text-[#A1A7B0]'
+                  mobileViewTab === 'list' ? 'bg-yellow text-midnight' : 'text-silver'
                 }`}
               >
                 List
@@ -130,7 +130,7 @@ export default function ExploreMapPage({
               <button
                 onClick={() => setMobileViewTab('map')}
                 className={`px-2.5 py-1.5 rounded-md text-xs font-semibold ${
-                  mobileViewTab === 'map' ? 'bg-[#FFC400] text-[#0B0D10]' : 'text-[#A1A7B0]'
+                  mobileViewTab === 'map' ? 'bg-yellow text-midnight' : 'text-silver'
                 }`}
               >
                 Map
@@ -148,8 +148,8 @@ export default function ExploreMapPage({
               onClick={() => setCategoryFilter(cat.id)}
               className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium transition cursor-pointer ${
                 categoryFilter === cat.id
-                  ? 'bg-[#FFC400] text-[#0B0D10] font-bold shadow-sm'
-                  : 'bg-[#0B0D10] border border-[#252A32] text-[#A1A7B0] hover:text-[#F5F5F5] hover:border-[#A1A7B0]/40'
+                  ? 'bg-yellow text-midnight font-bold shadow-sm'
+                  : 'bg-midnight border border-steel text-silver hover:text-snow hover:border-silver/40'
               }`}
             >
               {cat.label}
@@ -162,12 +162,12 @@ export default function ExploreMapPage({
       <div className="flex-1 flex overflow-hidden relative">
         
         {/* Left Side: Synchronized Results List */}
-        <div className={`w-full md:w-[420px] lg:w-[460px] h-full flex flex-col bg-[#0B0D10] border-r border-[#252A32] z-10 ${
+        <div className={`w-full md:w-[420px] lg:w-[460px] h-full flex flex-col bg-midnight border-r border-steel z-10 ${
           mobileViewTab === 'map' ? 'hidden md:flex' : 'flex'
         }`}>
           {/* Header Count */}
-          <div className="p-4 border-b border-[#252A32] flex items-center justify-between text-xs text-[#A1A7B0] bg-[#12151B]">
-            <span>Found <strong className="text-[#FFC400]">{filteredShops.length}</strong> Automotive Businesses</span>
+          <div className="p-4 border-b border-steel flex items-center justify-between text-xs text-silver bg-graphite">
+            <span>Found <strong className="text-yellow">{filteredShops.length}</strong> Automotive Businesses</span>
             {activeRouteShop && (
               <span className="text-emerald-400 font-semibold flex items-center space-x-1">
                 <Navigation className="w-3 h-3" />
@@ -179,11 +179,11 @@ export default function ExploreMapPage({
           {/* Scrollable Cards Feed */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3.5">
             {filteredShops.length === 0 ? (
-              <div className="p-8 text-center text-[#A1A7B0] space-y-3">
-                <div className="w-12 h-12 mx-auto rounded-full bg-[#171A20] border border-[#252A32] flex items-center justify-center text-[#FFC400]">
+              <div className="p-8 text-center text-silver space-y-3">
+                <div className="w-12 h-12 mx-auto rounded-full bg-graphite border border-steel flex items-center justify-center text-yellow">
                   <Search className="w-5 h-5" />
                 </div>
-                <h4 className="text-sm font-bold text-[#F5F5F5]">No matching shops found</h4>
+                <h4 className="text-sm font-bold text-snow">No matching shops found</h4>
                 <p className="text-xs">Try clearing some filters or searching for a broader term.</p>
                 <button
                   onClick={() => {
@@ -192,7 +192,7 @@ export default function ExploreMapPage({
                     setOpenNowOnly(false);
                     setHighRatedOnly(false);
                   }}
-                  className="btn-secondary px-3 py-1.5 text-xs text-[#FFC400]"
+                  className="btn-secondary px-3 py-1.5 text-xs text-yellow"
                 >
                   Clear All Filters
                 </button>
@@ -206,20 +206,20 @@ export default function ExploreMapPage({
                     onClick={() => onSelectShop(shop)}
                     className={`card-graphite p-4 rounded-xl cursor-pointer transition-all duration-200 border ${
                       isSelected
-                        ? 'border-[#FFC400] bg-[#1a1f29] shadow-lg shadow-[#FFC400]/10 ring-1 ring-[#FFC400]/50'
-                        : 'border-[#252A32] hover:border-[#FFC400]/40'
+                        ? 'border-yellow bg-graphite-elevated shadow-lg ring-1 ring-yellow/50'
+                        : 'border-steel hover:border-yellow/40'
                     }`}
                   >
                     <div className="flex gap-3">
                       <img
                         src={shop.coverImage}
                         alt={shop.name}
-                        className="w-20 h-20 rounded-lg object-cover border border-[#252A32] shrink-0"
+                        className="w-20 h-20 rounded-lg object-cover border border-steel shrink-0"
                       />
 
                       <div className="flex-1 min-w-0 space-y-1">
                         <div className="flex items-center justify-between gap-1">
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#FFC400]">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-yellow">
                             {shop.category}
                           </span>
                           <span className={`text-[9px] font-semibold px-2 py-0.5 rounded-full ${
@@ -229,12 +229,12 @@ export default function ExploreMapPage({
                           </span>
                         </div>
 
-                        <h4 className="text-sm font-bold text-[#F5F5F5] truncate font-heading">
+                        <h4 className="text-sm font-bold text-snow truncate font-heading">
                           {shop.name}
                         </h4>
 
-                        <div className="flex items-center space-x-2 text-xs text-[#A1A7B0]">
-                          <span className="flex items-center text-[#FFC400] font-semibold">
+                        <div className="flex items-center space-x-2 text-xs text-silver">
+                          <span className="flex items-center text-yellow font-semibold">
                             <Star className="w-3 h-3 fill-current mr-0.5" />
                             {shop.rating}
                           </span>
@@ -242,15 +242,15 @@ export default function ExploreMapPage({
                           <span className="truncate">{shop.distance}</span>
                         </div>
 
-                        <div className="flex items-center space-x-1 text-[11px] text-[#A1A7B0] truncate pt-0.5">
-                          <MapPin className="w-3 h-3 text-[#A1A7B0] shrink-0" />
+                        <div className="flex items-center space-x-1 text-[11px] text-silver truncate pt-0.5">
+                          <MapPin className="w-3 h-3 text-silver shrink-0" />
                           <span className="truncate">{shop.location}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Bottom Action Row */}
-                    <div className="mt-3 pt-2.5 border-t border-[#252A32] flex items-center justify-between gap-2">
+                    <div className="mt-3 pt-2.5 border-t border-steel flex items-center justify-between gap-2">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -259,7 +259,7 @@ export default function ExploreMapPage({
                         className="btn-secondary py-1 px-3 text-xs flex items-center space-x-1"
                       >
                         <span>Details</span>
-                        <ExternalLink className="w-3 h-3 text-[#A1A7B0]" />
+                        <ExternalLink className="w-3 h-3 text-silver" />
                       </button>
 
                       <button

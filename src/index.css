@@ -1,16 +1,36 @@
 @import "tailwindcss";
 
+@theme {
+  --color-midnight: var(--color-midnight);
+  --color-yellow: var(--color-racing-yellow);
+  --color-yellow-hover: var(--color-racing-yellow-hover);
+  --color-graphite: var(--color-graphite);
+  --color-graphite-elevated: var(--color-graphite-elevated);
+  --color-steel: var(--color-steel-grey);
+  --color-steel-hover: var(--color-steel-grey-hover);
+  --color-snow: var(--color-snow-white);
+  --color-silver: var(--color-muted-silver);
+  --color-success: var(--color-success);
+  --color-info: var(--color-info);
+  --color-error: var(--color-error);
+  --color-warning: var(--color-warning);
+}
+
 @layer base {
   :root {
+    /* Fallback default theme - fully configured in src/theme/colors.js */
     --color-midnight: #0B0D10;
     --color-racing-yellow: #FFC400;
+    --color-racing-yellow-hover: #FFD026;
     --color-graphite: #171A20;
+    --color-graphite-elevated: #1D212A;
     --color-steel-grey: #252A32;
+    --color-steel-grey-hover: #383F4B;
     --color-snow-white: #F5F5F5;
     --color-muted-silver: #A1A7B0;
     --color-success: #22C55E;
-    --color-error: #EF4444;
     --color-info: #3B82F6;
+    --color-error: #EF4444;
     --color-warning: #F59E0B;
   }
 
@@ -18,8 +38,8 @@
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background-color: #0B0D10;
-    color: #F5F5F5;
+    background-color: var(--color-midnight);
+    color: var(--color-snow-white);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     scroll-behavior: smooth;
   }
@@ -29,79 +49,78 @@
   }
 }
 
-/* Custom UI Components matching prompt rules */
+/* Custom UI Components dynamically driven by CSS variables from src/theme/colors.js */
 .btn-primary {
-  background-color: #FFC400;
-  color: #0B0D10;
+  background-color: var(--color-racing-yellow);
+  color: var(--color-midnight);
   font-weight: 700;
   border-radius: 10px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px 0 rgba(255, 196, 0, 0.25);
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.35);
 }
 
 .btn-primary:hover {
-  background-color: #ffd026;
-  box-shadow: 0 6px 20px 0 rgba(255, 196, 0, 0.4);
+  background-color: var(--color-racing-yellow-hover);
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #171A20;
-  color: #F5F5F5;
-  border: 1px solid #252A32;
+  background-color: var(--color-graphite);
+  color: var(--color-snow-white);
+  border: 1px solid var(--color-steel-grey);
   border-radius: 10px;
   font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .btn-secondary:hover {
-  background-color: #20242c;
-  border-color: #3b434f;
+  background-color: var(--color-graphite-elevated);
+  border-color: var(--color-steel-grey-hover);
   color: #ffffff;
 }
 
 .btn-outline {
   background-color: transparent;
-  color: #F5F5F5;
-  border: 1px solid #252A32;
+  color: var(--color-snow-white);
+  border: 1px solid var(--color-steel-grey);
   border-radius: 10px;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .btn-outline:hover {
-  border-color: #FFC400;
-  color: #FFC400;
+  border-color: var(--color-racing-yellow);
+  color: var(--color-racing-yellow);
 }
 
 .card-graphite {
-  background-color: #171A20;
-  border: 1px solid #252A32;
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-steel-grey);
   border-radius: 12px;
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .card-graphite:hover {
-  border-color: rgba(255, 196, 0, 0.35);
+  border-color: var(--color-racing-yellow);
 }
 
 /* Input Fields */
 .input-dark {
-  background-color: #171A20;
-  border: 1px solid #252A32;
-  color: #F5F5F5;
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-steel-grey);
+  color: var(--color-snow-white);
   border-radius: 10px;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-dark::placeholder {
-  color: #A1A7B0;
+  color: var(--color-muted-silver);
 }
 
 .input-dark:focus {
-  border-color: #FFC400;
-  box-shadow: 0 0 0 1px #FFC400;
+  border-color: var(--color-racing-yellow);
+  box-shadow: 0 0 0 1px var(--color-racing-yellow);
 }
 
 /* Custom Scrollbar for sidebars */
@@ -110,14 +129,14 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0D10;
+  background: var(--color-midnight);
 }
 ::-webkit-scrollbar-thumb {
-  background: #252A32;
+  background: var(--color-steel-grey);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b434f;
+  background: var(--color-steel-grey-hover);
 }
 
 /* Radar pulse animation for map */
