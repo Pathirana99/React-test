@@ -1,122 +1,186 @@
 /**
  * ==============================================================================
- * APEX AUTO — SINGLE THEME CONFIGURATION FILE
+ * 🎨 APEX AUTO — SINGLE THEME CONFIGURATION FILE
  * ==============================================================================
  * 
- * To change the colors of the entire application, simply edit the hex values
- * in `THEME_COLORS` below!
+ * TO CHANGE COLORS ACROSS THE ENTIRE APPLICATION:
+ * 👉 ONLY EDIT THIS SINGLE FILE (`src/theme/colors.js`).
+ * 👉 YOU DO NOT NEED TO EDIT ANY CSS, JSX, OR OTHER FILES!
  * 
- * You can also switch between predefined automotive presets or add your own.
- * Every button, background, card, border, map pin, route, and text color
- * across the entire app will update automatically.
+ * Simply change any hex color code in `THEME_COLORS` below, save the file,
+ * and the entire app (backgrounds, cards, borders, buttons, text, map, etc.)
+ * will immediately update.
+ * ==============================================================================
  */
 
+// ------------------------------------------------------------------------------
+// Color Auto-Shading Utility (Calculates matching elevated surfaces and borders)
+// ------------------------------------------------------------------------------
+function adjustColor(hex, amount) {
+  if (!hex || typeof hex !== 'string') return hex;
+  const clean = hex.replace('#', '');
+  const full = clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean;
+  const num = parseInt(full, 16);
+  if (isNaN(num)) return hex;
+  const r = Math.min(255, Math.max(0, (num >> 16) + amount));
+  const g = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amount));
+  const b = Math.min(255, Math.max(0, (num & 0x0000FF) + amount));
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
+
 // ==============================================================================
-// 1. ACTIVE COLOR PALETTE (EDIT THESE TO CHANGE THE PLATFORM COLORS EASILY)
+// 1. ACTIVE COLOR PALETTE — EDIT THIS OBJECT ONLY!
 // ==============================================================================
 export const THEME_COLORS = {
-  // Dominant Background (60% of layout)
-  midnightBlack: '#0B0D10',
+  // ----------------------------------------------------------------------------
+  // 1. MAIN WEBSITE BACKGROUND COLOR
+  // ----------------------------------------------------------------------------
+  background: '#0B0D10', // Midnight Black (Original Premium Theme)
 
-  // Primary Accent Highlight (Buttons, active tabs, markers, badges)
-  racingYellow: '#FFC400',
-  racingYellowHover: '#FFD026',
+  // ----------------------------------------------------------------------------
+  // 2. PRIMARY BRAND ACCENT COLOR
+  // ----------------------------------------------------------------------------
+  accent: '#FFC400', // Racing Yellow (Buttons, active navigation, icons, highlights)
 
-  // Surfaces, Cards, Modals & Containers (25% of layout)
-  graphite: '#171A20',
-  graphiteElevated: '#1E222B',
+  // ----------------------------------------------------------------------------
+  // 3. CARDS, PANELS & CONTAINERS
+  // ----------------------------------------------------------------------------
+  card: '#171A20', // Graphite
 
-  // Subtle Borders, Separators & Outlines
-  steelGrey: '#252A32',
-  steelGreyHover: '#383F4B',
+  // ----------------------------------------------------------------------------
+  // 4. BORDERS, DIVIDERS & OUTLINES
+  // ----------------------------------------------------------------------------
+  border: '#252A32', // Steel Grey
 
-  // Primary Typography & Headings (10% of layout)
-  snowWhite: '#F5F5F5',
+  // ----------------------------------------------------------------------------
+  // 5. TYPOGRAPHY
+  // ----------------------------------------------------------------------------
+  textPrimary: '#F5F5F5',    // Snow White (Headings & readable text)
+  textSecondary: '#A1A7B0',  // Muted Silver (Descriptions & subtitles)
 
-  // Secondary Typography & Descriptions
-  mutedSilver: '#A1A7B0',
+  // ----------------------------------------------------------------------------
+  // 6. FUNCTIONAL STATUS COLORS
+  // ----------------------------------------------------------------------------
+  success: '#22C55E',  // Success Green
+  info: '#3B82F6',     // Information Blue
+  error: '#EF4444',    // Error Red
+  warning: '#F59E0B',  // Warning Amber
 
-  // Functional Status Colors
-  successGreen: '#22C55E',  // Spare parts, open status, verified
-  infoBlue: '#3B82F6',      // Repair services, GPS routes, navigation
-  errorRed: '#EF4444',      // Closed status, urgent alerts
-  warningAmber: '#F59E0B',  // Warnings
+  // --- Aliases for Seamless Component Compatibility ---
+  get midnightBlack() { return this.background; },
+  set midnightBlack(v) { this.background = v; },
+
+  get racingYellow() { return this.accent; },
+  set racingYellow(v) { this.accent = v; },
+
+  get graphite() { return this.card || adjustColor(this.background, 12); },
+  set graphite(v) { this.card = v; },
+
+  get graphiteElevated() { return adjustColor(this.card || this.background, 8); },
+
+  get steelGrey() { return this.border || adjustColor(this.background, 26); },
+  set steelGrey(v) { this.border = v; },
+
+  get steelGreyHover() { return adjustColor(this.border || this.background, 14); },
+
+  get snowWhite() { return this.textPrimary; },
+  set snowWhite(v) { this.textPrimary = v; },
+
+  get mutedSilver() { return this.textSecondary; },
+  set mutedSilver(v) { this.textSecondary = v; },
+
+  get successGreen() { return this.success; },
+  get infoBlue() { return this.info; },
+  get errorRed() { return this.error; },
+  get warningAmber() { return this.warning; },
 };
 
 // ==============================================================================
-// 2. READY-TO-USE AUTOMOTIVE COLOR PRESETS
+// 2. READY-TO-USE PRESETS FOR QUICK SWITCHING
 // ==============================================================================
 export const THEME_PRESETS = {
-  racingYellow: {
-    name: 'Apex Racing Yellow (Default)',
+  midnightBlack: {
+    name: 'Midnight Black + Racing Yellow (Default)',
     accent: '#FFC400',
-    accentHover: '#FFD026',
     background: '#0B0D10',
     card: '#171A20',
     border: '#252A32',
   },
   motorsportRed: {
-    name: 'Brembo Motorsport Red',
+    name: 'Midnight Black + Brembo Red',
     accent: '#EF4444',
-    accentHover: '#F87171',
     background: '#0B0D10',
     card: '#171A20',
     border: '#252A32',
   },
   electricCyan: {
-    name: 'Taycan Electric Cyan',
+    name: 'Midnight Black + Taycan Cyan',
     accent: '#06B6D4',
-    accentHover: '#22D3EE',
-    background: '#080C11',
-    card: '#131A24',
-    border: '#1F2A38',
+    background: '#0B0D10',
+    card: '#171A20',
+    border: '#252A32',
   },
   emeraldGreen: {
-    name: 'Aston Emerald Green',
+    name: 'Midnight Black + Aston Emerald',
     accent: '#10B981',
-    accentHover: '#34D399',
-    background: '#070E0B',
-    card: '#121F18',
-    border: '#1E3227',
+    background: '#0B0D10',
+    card: '#171A20',
+    border: '#252A32',
   },
   hyperOrange: {
-    name: 'McLaren Papaya Orange',
+    name: 'Midnight Black + McLaren Papaya',
     accent: '#F97316',
-    accentHover: '#FB923C',
-    background: '#0C0A09',
-    card: '#1C1917',
-    border: '#292524',
+    background: '#0B0D10',
+    card: '#171A20',
+    border: '#252A32',
+  },
+  titaniumGray: {
+    name: 'Titanium Slate Gray + Yellow',
+    accent: '#FFC400',
+    background: '#181B20',
+    card: '#22262E',
+    border: '#333A46',
   }
 };
 
 // ==============================================================================
-// 3. THEME INJECTION ENGINE
+// 3. AUTOMATIC INJECTION ENGINE
 // ==============================================================================
 /**
- * Injects the colors as CSS custom properties into :root.
- * Runs on application mount and whenever the theme changes.
+ * Injects colors into CSS Custom Properties on :root.
+ * Runs automatically on startup and whenever colors change.
  */
 export function applyTheme(colors = THEME_COLORS) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
 
-  root.style.setProperty('--color-midnight', colors.midnightBlack);
-  root.style.setProperty('--color-racing-yellow', colors.racingYellow);
-  root.style.setProperty('--color-racing-yellow-hover', colors.racingYellowHover);
-  root.style.setProperty('--color-graphite', colors.graphite);
-  root.style.setProperty('--color-graphite-elevated', colors.graphiteElevated);
-  root.style.setProperty('--color-steel-grey', colors.steelGrey);
-  root.style.setProperty('--color-steel-grey-hover', colors.steelGreyHover);
-  root.style.setProperty('--color-snow-white', colors.snowWhite);
-  root.style.setProperty('--color-muted-silver', colors.mutedSilver);
-  root.style.setProperty('--color-success', colors.successGreen);
-  root.style.setProperty('--color-info', colors.infoBlue);
-  root.style.setProperty('--color-error', colors.errorRed);
-  root.style.setProperty('--color-warning', colors.warningAmber);
+  const bg = colors.background || colors.midnightBlack || '#0B0D10';
+  const accent = colors.accent || colors.racingYellow || '#FFC400';
+  const accentHover = adjustColor(accent, 15);
+  const card = colors.card || colors.graphite || adjustColor(bg, 12);
+  const cardElevated = adjustColor(card, 8);
+  const border = colors.border || colors.steelGrey || adjustColor(bg, 26);
+  const borderHover = adjustColor(border, 14);
+  const textPrimary = colors.textPrimary || colors.snowWhite || '#F5F5F5';
+  const textSecondary = colors.textSecondary || colors.mutedSilver || '#A1A7B0';
+
+  root.style.setProperty('--color-midnight', bg);
+  root.style.setProperty('--color-racing-yellow', accent);
+  root.style.setProperty('--color-racing-yellow-hover', accentHover);
+  root.style.setProperty('--color-graphite', card);
+  root.style.setProperty('--color-graphite-elevated', cardElevated);
+  root.style.setProperty('--color-steel-grey', border);
+  root.style.setProperty('--color-steel-grey-hover', borderHover);
+  root.style.setProperty('--color-snow-white', textPrimary);
+  root.style.setProperty('--color-muted-silver', textSecondary);
+  root.style.setProperty('--color-success', colors.success || colors.successGreen || '#22C55E');
+  root.style.setProperty('--color-info', colors.info || colors.infoBlue || '#3B82F6');
+  root.style.setProperty('--color-error', colors.error || colors.errorRed || '#EF4444');
+  root.style.setProperty('--color-warning', colors.warning || colors.warningAmber || '#F59E0B');
 }
 
 /**
- * Switch to any preset at runtime.
+ * Switch preset at runtime (e.g. from Theme Customizer).
  */
 export function switchPreset(presetKey) {
   const preset = THEME_PRESETS[presetKey];
@@ -124,13 +188,17 @@ export function switchPreset(presetKey) {
 
   const newColors = {
     ...THEME_COLORS,
-    racingYellow: preset.accent,
-    racingYellowHover: preset.accentHover,
-    midnightBlack: preset.background,
-    graphite: preset.card,
-    steelGrey: preset.border,
+    accent: preset.accent,
+    background: preset.background,
+    card: preset.card,
+    border: preset.border,
   };
 
   applyTheme(newColors);
   return newColors;
+}
+
+// Automatically apply theme on initial module load
+if (typeof document !== 'undefined') {
+  applyTheme(THEME_COLORS);
 }

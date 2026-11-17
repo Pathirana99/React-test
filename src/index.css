@@ -17,23 +17,6 @@
 }
 
 @layer base {
-  :root {
-    /* Fallback default theme - fully configured in src/theme/colors.js */
-    --color-midnight: #0B0D10;
-    --color-racing-yellow: #FFC400;
-    --color-racing-yellow-hover: #FFD026;
-    --color-graphite: #171A20;
-    --color-graphite-elevated: #1D212A;
-    --color-steel-grey: #252A32;
-    --color-steel-grey-hover: #383F4B;
-    --color-snow-white: #F5F5F5;
-    --color-muted-silver: #A1A7B0;
-    --color-success: #22C55E;
-    --color-info: #3B82F6;
-    --color-error: #EF4444;
-    --color-warning: #F59E0B;
-  }
-
   html, body {
     margin: 0;
     padding: 0;
@@ -76,7 +59,7 @@
 .btn-secondary:hover {
   background-color: var(--color-graphite-elevated);
   border-color: var(--color-steel-grey-hover);
-  color: #ffffff;
+  color: var(--color-snow-white);
 }
 
 .btn-outline {
