@@ -4,7 +4,7 @@ import { THEME_PRESETS, switchPreset, THEME_COLORS } from '../theme/colors';
 
 export default function ThemeCustomizer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activePreset, setActivePreset] = useState('midnightBlack');
+  const [activePreset, setActivePreset] = useState('brightTitanium');
 
   const handleSelectPreset = (key) => {
     setActivePreset(key);

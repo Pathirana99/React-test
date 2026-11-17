@@ -35,35 +35,39 @@ export const THEME_COLORS = {
   // ----------------------------------------------------------------------------
   // 1. MAIN WEBSITE BACKGROUND COLOR
   // ----------------------------------------------------------------------------
-  background: '#0B0D10', // Midnight Black (Original Premium Theme)
+  // Brighter, luxurious Titanium Gunmetal Slate — clean, modern, and open
+  background: '#20252E',
 
   // ----------------------------------------------------------------------------
   // 2. PRIMARY BRAND ACCENT COLOR
   // ----------------------------------------------------------------------------
-  accent: '#FFC400', // Racing Yellow (Buttons, active navigation, icons, highlights)
+  // Signature high-visibility Racing Yellow
+  accent: '#FFC400',
 
   // ----------------------------------------------------------------------------
   // 3. CARDS, PANELS & CONTAINERS
   // ----------------------------------------------------------------------------
-  card: '#171A20', // Graphite
+  // Elevated, rich satin graphite surface with clean visual pop
+  card: '#2A313C',
 
   // ----------------------------------------------------------------------------
   // 4. BORDERS, DIVIDERS & OUTLINES
   // ----------------------------------------------------------------------------
-  border: '#252A32', // Steel Grey
+  // Crisp metallic borders providing sharp, elegant separation
+  border: '#3D4656',
 
   // ----------------------------------------------------------------------------
-  // 5. TYPOGRAPHY
+  // 5. TYPOGRAPHY (Crystal-clear contrast & readability)
   // ----------------------------------------------------------------------------
-  textPrimary: '#F5F5F5',    // Snow White (Headings & readable text)
-  textSecondary: '#A1A7B0',  // Muted Silver (Descriptions & subtitles)
+  textPrimary: '#FFFFFF',    // 100% Crisp white (Headings & readable text)
+  textSecondary: '#CBD5E1',  // Soft luminous silver-slate (Effortless readability)
 
   // ----------------------------------------------------------------------------
   // 6. FUNCTIONAL STATUS COLORS
   // ----------------------------------------------------------------------------
-  success: '#22C55E',  // Success Green
-  info: '#3B82F6',     // Information Blue
-  error: '#EF4444',    // Error Red
+  success: '#22C55E',  // Success Green (Open, verified, parts)
+  info: '#38BDF8',     // Sky Blue (Routes, navigation, diagnostic services)
+  error: '#EF4444',    // Error Red (Closed, alerts)
   warning: '#F59E0B',  // Warning Amber
 
   // --- Aliases for Seamless Component Compatibility ---
@@ -76,12 +80,12 @@ export const THEME_COLORS = {
   get graphite() { return this.card || adjustColor(this.background, 12); },
   set graphite(v) { this.card = v; },
 
-  get graphiteElevated() { return adjustColor(this.card || this.background, 8); },
+  get graphiteElevated() { return adjustColor(this.card || this.background, 10); },
 
   get steelGrey() { return this.border || adjustColor(this.background, 26); },
   set steelGrey(v) { this.border = v; },
 
-  get steelGreyHover() { return adjustColor(this.border || this.background, 14); },
+  get steelGreyHover() { return adjustColor(this.border || this.background, 16); },
 
   get snowWhite() { return this.textPrimary; },
   set snowWhite(v) { this.textPrimary = v; },
@@ -99,47 +103,19 @@ export const THEME_COLORS = {
 // 2. READY-TO-USE PRESETS FOR QUICK SWITCHING
 // ==============================================================================
 export const THEME_PRESETS = {
-  midnightBlack: {
-    name: 'Midnight Black + Racing Yellow (Default)',
+  brightTitanium: {
+    name: 'Bright Titanium Slate + Racing Yellow (Default)',
+    accent: '#FFC400',
+    background: '#20252E',
+    card: '#2A313C',
+    border: '#3D4656',
+  },
+  deepMidnight: {
+    name: 'Deep Midnight Black (Original Dark)',
     accent: '#FFC400',
     background: '#0B0D10',
     card: '#171A20',
     border: '#252A32',
-  },
-  motorsportRed: {
-    name: 'Midnight Black + Brembo Red',
-    accent: '#EF4444',
-    background: '#0B0D10',
-    card: '#171A20',
-    border: '#252A32',
-  },
-  electricCyan: {
-    name: 'Midnight Black + Taycan Cyan',
-    accent: '#06B6D4',
-    background: '#0B0D10',
-    card: '#171A20',
-    border: '#252A32',
-  },
-  emeraldGreen: {
-    name: 'Midnight Black + Aston Emerald',
-    accent: '#10B981',
-    background: '#0B0D10',
-    card: '#171A20',
-    border: '#252A32',
-  },
-  hyperOrange: {
-    name: 'Midnight Black + McLaren Papaya',
-    accent: '#F97316',
-    background: '#0B0D10',
-    card: '#171A20',
-    border: '#252A32',
-  },
-  titaniumGray: {
-    name: 'Titanium Slate Gray + Yellow',
-    accent: '#FFC400',
-    background: '#181B20',
-    card: '#22262E',
-    border: '#333A46',
   }
 };
 
@@ -154,15 +130,15 @@ export function applyTheme(colors = THEME_COLORS) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
 
-  const bg = colors.background || colors.midnightBlack || '#0B0D10';
+  const bg = colors.background || colors.midnightBlack || '#20252E';
   const accent = colors.accent || colors.racingYellow || '#FFC400';
   const accentHover = adjustColor(accent, 15);
   const card = colors.card || colors.graphite || adjustColor(bg, 12);
-  const cardElevated = adjustColor(card, 8);
+  const cardElevated = adjustColor(card, 10);
   const border = colors.border || colors.steelGrey || adjustColor(bg, 26);
-  const borderHover = adjustColor(border, 14);
-  const textPrimary = colors.textPrimary || colors.snowWhite || '#F5F5F5';
-  const textSecondary = colors.textSecondary || colors.mutedSilver || '#A1A7B0';
+  const borderHover = adjustColor(border, 16);
+  const textPrimary = colors.textPrimary || colors.snowWhite || '#FFFFFF';
+  const textSecondary = colors.textSecondary || colors.mutedSilver || '#CBD5E1';
 
   root.style.setProperty('--color-midnight', bg);
   root.style.setProperty('--color-racing-yellow', accent);
@@ -174,7 +150,7 @@ export function applyTheme(colors = THEME_COLORS) {
   root.style.setProperty('--color-snow-white', textPrimary);
   root.style.setProperty('--color-muted-silver', textSecondary);
   root.style.setProperty('--color-success', colors.success || colors.successGreen || '#22C55E');
-  root.style.setProperty('--color-info', colors.info || colors.infoBlue || '#3B82F6');
+  root.style.setProperty('--color-info', colors.info || colors.infoBlue || '#38BDF8');
   root.style.setProperty('--color-error', colors.error || colors.errorRed || '#EF4444');
   root.style.setProperty('--color-warning', colors.warning || colors.warningAmber || '#F59E0B');
 }

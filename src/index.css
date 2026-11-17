@@ -79,12 +79,14 @@
 .card-graphite {
   background-color: var(--color-graphite);
   border: 1px solid var(--color-steel-grey);
-  border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-graphite:hover {
   border-color: var(--color-racing-yellow);
+  box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.35);
 }
 
 /* Input Fields */
