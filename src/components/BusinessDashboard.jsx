@@ -162,7 +162,7 @@ export default function BusinessDashboard({ currentShop, onUpdateShop }) {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-2 rounded-xl transition cursor-pointer whitespace-nowrap ${
                 activeTab === tab.id
-                  ? 'bg-yellow text-midnight font-bold shadow-md'
+                  ? 'bg-yellow text-black font-bold shadow-md'
                   : 'text-silver hover:text-snow hover:bg-graphite'
               }`}
             >

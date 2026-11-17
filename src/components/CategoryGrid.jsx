@@ -76,7 +76,7 @@ export default function CategoryGrid({ onSelectCategory }) {
 
                 <div className="pt-3 border-t border-steel flex items-center justify-between text-xs font-semibold text-silver group-hover:text-snow">
                   <span>{cat.count}</span>
-                  <div className="w-6 h-6 rounded-full bg-steel group-hover:bg-yellow group-hover:text-midnight flex items-center justify-center transition-colors">
+                  <div className="w-6 h-6 rounded-full bg-steel group-hover:bg-yellow group-hover:text-black flex items-center justify-center transition-colors">
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </div>
                 </div>

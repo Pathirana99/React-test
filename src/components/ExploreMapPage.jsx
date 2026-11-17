@@ -122,7 +122,7 @@ export default function ExploreMapPage({
               <button
                 onClick={() => setMobileViewTab('list')}
                 className={`px-2.5 py-1.5 rounded-md text-xs font-semibold ${
-                  mobileViewTab === 'list' ? 'bg-yellow text-midnight' : 'text-silver'
+                  mobileViewTab === 'list' ? 'bg-yellow text-black' : 'text-silver'
                 }`}
               >
                 List
@@ -130,7 +130,7 @@ export default function ExploreMapPage({
               <button
                 onClick={() => setMobileViewTab('map')}
                 className={`px-2.5 py-1.5 rounded-md text-xs font-semibold ${
-                  mobileViewTab === 'map' ? 'bg-yellow text-midnight' : 'text-silver'
+                  mobileViewTab === 'map' ? 'bg-yellow text-black' : 'text-silver'
                 }`}
               >
                 Map
@@ -148,7 +148,7 @@ export default function ExploreMapPage({
               onClick={() => setCategoryFilter(cat.id)}
               className={`px-3 py-1.5 rounded-lg whitespace-nowrap font-medium transition cursor-pointer ${
                 categoryFilter === cat.id
-                  ? 'bg-yellow text-midnight font-bold shadow-sm'
+                  ? 'bg-yellow text-black font-bold shadow-sm'
                   : 'bg-midnight border border-steel text-silver hover:text-snow hover:border-silver/40'
               }`}
             >

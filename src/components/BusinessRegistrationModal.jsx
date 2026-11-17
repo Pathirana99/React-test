@@ -140,7 +140,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                 <div className="flex items-center space-x-2">
                   <div className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold border ${
                     isCurrent 
-                      ? 'bg-yellow text-midnight border-yellow' 
+                      ? 'bg-yellow text-black border-yellow' 
                       : isCompleted 
                       ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' 
                       : 'bg-midnight border-steel text-silver'
@@ -323,7 +323,7 @@ export default function BusinessRegistrationModal({ isOpen, onClose, onRegisterC
                   >
                     <div className="relative flex flex-col items-center">
                       <span className="animate-ping absolute -inset-1 rounded-full bg-yellow opacity-75" />
-                      <div className="relative w-8 h-8 rounded-full bg-yellow text-midnight flex items-center justify-center font-bold shadow-lg shadow-yellow/50">
+                      <div className="relative w-8 h-8 rounded-full bg-yellow text-black flex items-center justify-center font-bold shadow-lg shadow-yellow/50">
                         <MapPin className="w-4 h-4 fill-current" />
                       </div>
                       <div className="text-[10px] bg-midnight text-yellow border border-steel px-2 py-0.5 rounded mt-1 font-bold whitespace-nowrap">

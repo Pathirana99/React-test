@@ -217,7 +217,7 @@ export default function InteractiveMap({
               {/* Label Pill on Hover / Selected */}
               <div className={`mt-1 whitespace-nowrap px-2.5 py-1 rounded-md text-[11px] font-bold tracking-tight shadow-md transition-opacity pointer-events-none ${
                 isSelected 
-                  ? 'bg-yellow text-midnight' 
+                  ? 'bg-yellow text-black' 
                   : 'bg-graphite/95 text-snow border border-steel opacity-80 group-hover/pin:opacity-100'
               }`}>
                 {shop.name.split(' ')[0]}

@@ -68,7 +68,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onLo
             type="button"
             onClick={() => setMode('login')}
             className={`py-2 rounded-lg transition ${
-              mode === 'login' ? 'bg-yellow text-midnight font-bold' : 'text-silver'
+              mode === 'login' ? 'bg-yellow text-black font-bold' : 'text-silver'
             }`}
           >
             Sign In
@@ -77,7 +77,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login', onLo
             type="button"
             onClick={() => setMode('register')}
             className={`py-2 rounded-lg transition ${
-              mode === 'register' ? 'bg-yellow text-midnight font-bold' : 'text-silver'
+              mode === 'register' ? 'bg-yellow text-black font-bold' : 'text-silver'
             }`}
           >
             Register

@@ -4,7 +4,7 @@ import { THEME_PRESETS, switchPreset, THEME_COLORS } from '../theme/colors';
 
 export default function ThemeCustomizer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [activePreset, setActivePreset] = useState('brightTitanium');
+  const [activePreset, setActivePreset] = useState('pureLight');
 
   const handleSelectPreset = (key) => {
     setActivePreset(key);
@@ -21,7 +21,7 @@ export default function ThemeCustomizer() {
           title="Customize Theme Colors"
         >
           <div className="w-4 h-4 rounded-full bg-yellow group-hover:scale-110 transition-transform flex items-center justify-center">
-            <Palette className="w-2.5 h-2.5 text-midnight" />
+            <Palette className="w-2.5 h-2.5 text-black" />
           </div>
           <span className="text-xs font-bold tracking-tight text-snow">
             Theme Colors

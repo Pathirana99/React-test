@@ -35,11 +35,11 @@
 /* Custom UI Components dynamically driven by CSS variables from src/theme/colors.js */
 .btn-primary {
   background-color: var(--color-racing-yellow);
-  color: var(--color-midnight);
+  color: black;
   font-weight: 700;
   border-radius: 10px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {

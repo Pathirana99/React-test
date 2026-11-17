@@ -107,7 +107,7 @@ export default function ShopDetailsModal({
                 onClick={() => setActiveTab(tab)}
                 className={`px-3 py-1.5 rounded-lg capitalize transition cursor-pointer ${
                   activeTab === tab
-                    ? 'bg-yellow text-midnight font-bold'
+                    ? 'bg-yellow text-black font-bold'
                     : 'text-silver hover:text-snow'
                 }`}
               >
